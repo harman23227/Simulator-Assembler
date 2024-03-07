@@ -61,7 +61,9 @@ j_type_instructions = {
 ip=[]
 with open("input.txt", 'r') as file:
     lines = (line.strip() for line in file if line.strip() and not line.startswith('#'))
-    ip = list(lines)
-johoikl
+    ip = list(lines) 
+#its over
+#project done by alabhya 
+    
 
  
