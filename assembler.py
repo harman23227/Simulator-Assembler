@@ -60,11 +60,9 @@ j_type_instructions = {
 
 ip=[]
 with open("input.txt", 'r') as file:
-    lines = (line.strip() for line in file if line.strip() and not line.startswith('#'))
-    ip = list(lines) 
-#its over
-#project done by alabhya 
-print("dog")
+    lines = (line.strip() for line in file if line.strip() and not line.startswith('#'))   #removing uneccesary spaces and empty whitespaces plus comments
+    ip = list(lines)   #storing all lines in a list
+
     
 
  
