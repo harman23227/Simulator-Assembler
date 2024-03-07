@@ -64,6 +64,7 @@ with open("input.txt", 'r') as file:
     ip = list(lines) 
 #its over
 #project done by alabhya 
+print("dog")
     
 
  
