@@ -166,82 +166,82 @@ with open("input.txt", 'r') as file:
 print (ip)
 file.close()
 
-# def rtype(func , list):
-#     bintemp=""
-#     bintemp+=r_type_instructions[func]["opcode"]                            #func for rtype , incomplete
-#     #register
-#     bintemp+=r_type_instructions[func]["funct3"]
-#     #rs1
-#     #rs2
-#     bintemp+=r_type_instructions[func]["funct7"]
+def rtype(func , list):
+    bintemp=""
+    bintemp+=r_type_instructions[func]["opcode"]                            #func for rtype , incomplete
+    #register
+    bintemp+=r_type_instructions[func]["funct3"]
+    #rs1
+    #rs2
+    bintemp+=r_type_instructions[func]["funct7"]
 
 
 
-# def itype(func , list):
-#     bintemp=""
-#     bintemp+=i_type_instructions[func]["opcode"]                            #func for itype , incomplete
+def itype(func , list):
+    bintemp=""
+    bintemp+=i_type_instructions[func]["opcode"]                            #func for itype , incomplete
     
 
 
-# def stype(func , list):
-#     bintemp=""
-#     bintemp+=s_type_instructions[func]["opcode"]                            #func for stype , incomplete
+def stype(func , list):
+    bintemp=""
+    bintemp+=s_type_instructions[func]["opcode"]                            #func for stype , incomplete
     
 
 
-# def btype(func , list):
-#     bintemp=""
-#     bintemp+=b_type_instructions[func]["opcode"]                            #func for btype , incomplete
+def btype(func , list):
+    bintemp=""
+    bintemp+=b_type_instructions[func]["opcode"]                            #func for btype , incomplete
    
 
 
-# def utype(func , list):
-#     bintemp=""
-#     bintemp+=u_type_instructions[func]["opcode"]                            #func for utype , incomplete
+def utype(func , list):
+    bintemp=""
+    bintemp+=u_type_instructions[func]["opcode"]                            #func for utype , incomplete
    
 
 
-# def jtype(func , list):
-#     bintemp=""
-#     bintemp+=r_type_instructions[func]["opcode"]                            #func for jtype , incomplete
+def jtype(func , list):
+    bintemp=""
+    bintemp+=r_type_instructions[func]["opcode"]                            #func for jtype , incomplete
     
 
 
  
 
 
-# for line in ip:
-#     temp=""
-#     flag=False
-#     for word in line.split():
-#         for type in instruction_types:                        #to check if line begins with a type function , then its whole line will be written
-#             if word in type:
-#                 if word in r_type_instructions.keys(): 
-#                     temp+=rtype(word , line.split())   
-#                     flag=True                          
-#                     break
-#                 if word in i_type_instructions.keys():
-#                     temp+=itype(word , line.split())
-#                     flag=True
-#                     break
-#                 if word in s_type_instructions.keys():
-#                     temp+=stype(word , line.split())
-#                     flag=True
-#                     break
-#                 if word in b_type_instructions.keys():
-#                     temp+=btype(word , line.split())
-#                     flag=True
-#                     break
-#                 if word in u_type_instructions.keys():
-#                     temp+=utype(word , line.split())
-#                     flag=True
-#                     break
-#                 if word in j_type_instructions.keys():
-#                     temp+=jtype(word , line.split())
-#                     flag=True
-#                     break
-#         if flag==True:
-#             break            
+for line in ip:
+    temp=""
+    flag=False
+    for word in line.split():
+        for type in instruction_types:                        #to check if line begins with a type function , then its whole line will be written
+            if word in type:
+                if word in r_type_instructions.keys(): 
+                    temp+=rtype(word , line.split())   
+                    flag=True                          
+                    break
+                if word in i_type_instructions.keys():
+                    temp+=itype(word , line.split())
+                    flag=True
+                    break
+                if word in s_type_instructions.keys():
+                    temp+=stype(word , line.split())
+                    flag=True
+                    break
+                if word in b_type_instructions.keys():
+                    temp+=btype(word , line.split())
+                    flag=True
+                    break
+                if word in u_type_instructions.keys():
+                    temp+=utype(word , line.split())
+                    flag=True
+                    break
+                if word in j_type_instructions.keys():
+                    temp+=jtype(word , line.split())
+                    flag=True
+                    break
+        if flag==True:
+            break            
         
     
 
