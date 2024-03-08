@@ -170,9 +170,9 @@ file.close()
 
 def rtype(func , list):
     bintemp=""
-    bintemp+=r_type_instru=l[0]
+    bintemp+=r_type_instructions[0]
 
- def itype(func , list):
+def itype(func , list):
     bintemp=""
     bintemp+=i_type_instructions[func]["opcode"]                            #func for itype , incomplete
     
@@ -186,12 +186,12 @@ def stype(func , list):
 
 def btype(func , list):
     bintemp=""
-   bintemp+=b_type_instructions[func]["opcode"]                            #func for btype , incomplete
+    bintemp+=b_type_instructions[func]["opcode"]                            #func for btype , incomplete
    
 
- def utype(func , list):
+def utype(func , list):
      bintemp=""
-   bintemp+=u_type_instructions[func]["opcode"]                            #func for utype , incomplete
+     bintemp+=u_type_instructions[func]["opcode"]                            #func for utype , incomplete
    
 
 
@@ -199,6 +199,23 @@ def jtype(func , list):
     bintemp=""
     bintemp+=r_type_instructions[func]["opcode"]                            #func for jtype , incomplete
     
+
+
+def instruction(list):
+    if list[0] in r_type_instructions.keys():
+        bintemp=""
+        registers=[reg.strip(",") for reg in list[1:]]
+        bintemp+=r_type_instructions[list[0]]["opcode"]                            #func for rtype , incomplete
+        bintemp+=register_encoding[registers[0]]
+        bintemp+=r_type_instructions[list[0]]["funct3"]
+        bintemp+=register_encoding[registers[1]]
+        bintemp+=register_encoding[registers[2]]
+        bintemp+=r_type_instructions[list[0]]["funct7"]
+    elif list[0] in s_type_instructions.keys():
+        
+
+
+
 
 
  
