@@ -16,7 +16,17 @@ def fill(binary_string, num_bits,s):
         binary_string = binary_string[-num_bits:]
     
     return binary_string
+def instruction(l):
+    f= open()
 
+
+
+
+
+
+
+def label(l);
+    f= open()
 
 
 r_type_instructions = {
@@ -84,15 +94,7 @@ register_encoding = {
     "r6": "00110",
     "x7": "00111",
     "t2": "00111",
-    "r6": "00111",
-    "x8": "01000",
-    "s0": "01000",
-    "r8": "01000",
-    "x9": "01001",
-    "s1": "01001",
-    "r9": "01001",
-    "x10": "01010",
-    "a0": "01010",
+    "r6": "00111",instruction()
     "r10": "01010",
     "x11": "01011",
     "a1": "01011",
@@ -168,13 +170,7 @@ file.close()
 
 def rtype(func , list):
     bintemp=""
-    bintemp+=r_type_instructions[func]["opcode"]                            #func for rtype , incomplete
-    #register
-    bintemp+=r_type_instructions[func]["funct3"]
-    #rs1
-    #rs2
-    bintemp+=r_type_instructions[func]["funct7"]
-
+    bintemp+=r_type_instru=l[0]
 
 
 def itype(func , list):
@@ -186,24 +182,11 @@ def itype(func , list):
 def stype(func , list):
     bintemp=""
     bintemp+=s_type_instructions[func]["opcode"]                            #func for stype , incomplete
-    
-
-
-def btype(func , list):
-    bintemp=""
-    bintemp+=b_type_instructions[func]["opcode"]                            #func for btype , incomplete
-   
-
-
+    instruction()
 def utype(func , list):
     bintemp=""
     bintemp+=u_type_instructions[func]["opcode"]                            #func for utype , incomplete
-   
-
-
-def jtype(func , list):
-    bintemp=""
-    bintemp+=r_type_instructions[func]["opcode"]                            #func for jtype , incomplete
+   =l[0]uctions[func]["opcode"]                            #func for jtype , incomplete
     
 
 
@@ -211,37 +194,15 @@ def jtype(func , list):
 
 
 for line in ip:
-    temp=""
-    flag=False
-    for word in line.split():
-        for type in instruction_types:                        #to check if line begins with a type function , then its whole line will be written
-            if word in type:
-                if word in r_type_instructions.keys(): 
-                    temp+=rtype(word , line.split())   
-                    flag=True                          
-                    break
-                if word in i_type_instructions.keys():
-                    temp+=itype(word , line.split())
-                    flag=True
-                    break
-                if word in s_type_instructions.keys():
-                    temp+=stype(word , line.split())
-                    flag=True
-                    break
-                if word in b_type_instructions.keys():
-                    temp+=btype(word , line.split())
-                    flag=True
-                    break
-                if word in u_type_instructions.keys():
-                    temp+=utype(word , line.split())
-                    flag=True
-                    break
-                if word in j_type_instructions.keys():
-                    temp+=jtype(word , line.split())
-                    flag=True
-                    break
-        if flag==True:
-            break            
+    l=line.split()
+    m=l[0]
+    for i in instruction_types:
+        if m in i:
+            instruction(l)
+            break
+    else:
+        label(l)
+       
         
     
 
