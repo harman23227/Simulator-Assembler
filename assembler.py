@@ -25,8 +25,7 @@ def instruction(l):
 
 
 
-def label(l);
-    f= open()
+    
 
 
 r_type_instructions = {
@@ -200,11 +199,24 @@ def jtype(func , list):
     bintemp+=r_type_instructions[func]["opcode"]                            #func for jtype , incomplete
     
 
+def get_get(line):
+    
+    reeee = re.compile(r'^\s*([a-zA-Z_]\w*):')
+
+    matcha = reeee.match(line)
+
+    if not matcha:
+        return None
+    else:
+        return matcha.group(1)
 
  
+label=list()
 
-
+       
+line_no=0
 for line in ip:
+    line_no = line_no+1 
     l=line.split()
     m=l[0]
     for i in instruction_types:
@@ -212,6 +224,19 @@ for line in ip:
             instruction(l)
             break
     else:
-        label(l)
+        d = get_get(line)
+        if d in label:
+            g=open("output.txt","w")
+            g.write(f"Error in Line {line_no} ,Label already mentioned" )#mere lode pe
+            g.close()
+            break
+        if d == None:
+            g=open("output.txt","w")
+            g.write(f"Error in Line {line_no} ,Invalid Label/Expression" )#mere lode pe
+            g.close()
+            break
+        else:
+            label.append(d)
+            continue
        
     
