@@ -168,17 +168,30 @@ with open("input.txt", 'r') as file:
 print (ip)
 file.close()
 
+<<<<<<< HEAD
 def rtype(func , list):
     bintemp=""
     bintemp+=r_type_instru=l[0]
+=======
+# def rtype(func , list):
+#     bintemp=""
+#     bintemp+=r_type_instructions[func]["opcode"]                            #func for rtype , incomplete
+#     #register
+#     bintemp+=r_type_instructions[func]["funct3"]
+#     #rs1
+#     #rs2
+#     bintemp+=r_type_instructions[func]["funct7"]
+
+>>>>>>> 2761c3cdfcf84700792937ff8ac1b4dc16ed0c5f
 
 
-def itype(func , list):
-    bintemp=""
-    bintemp+=i_type_instructions[func]["opcode"]                            #func for itype , incomplete
+# def itype(func , list):
+#     bintemp=""
+#     bintemp+=i_type_instructions[func]["opcode"]                            #func for itype , incomplete
     
 
 
+<<<<<<< HEAD
 def stype(func , list):
     bintemp=""
     bintemp+=s_type_instructions[func]["opcode"]                            #func for stype , incomplete
@@ -187,12 +200,36 @@ def utype(func , list):
     bintemp=""
     bintemp+=u_type_instructions[func]["opcode"]                            #func for utype , incomplete
    =l[0]uctions[func]["opcode"]                            #func for jtype , incomplete
+=======
+# def stype(func , list):
+#     bintemp=""
+#     bintemp+=s_type_instructions[func]["opcode"]                            #func for stype , incomplete
+    
+
+
+# def btype(func , list):
+#     bintemp=""
+#     bintemp+=b_type_instructions[func]["opcode"]                            #func for btype , incomplete
+   
+
+
+# def utype(func , list):
+#     bintemp=""
+#     bintemp+=u_type_instructions[func]["opcode"]                            #func for utype , incomplete
+   
+
+
+# def jtype(func , list):
+#     bintemp=""
+#     bintemp+=r_type_instructions[func]["opcode"]                            #func for jtype , incomplete
+>>>>>>> 2761c3cdfcf84700792937ff8ac1b4dc16ed0c5f
     
 
 
  
 
 
+<<<<<<< HEAD
 for line in ip:
     l=line.split()
     m=l[0]
@@ -203,6 +240,40 @@ for line in ip:
     else:
         label(l)
        
+=======
+# for line in ip:
+#     temp=""
+#     flag=False
+#     for word in line.split():
+#         for type in instruction_types:                        #to check if line begins with a type function , then its whole line will be written
+#             if word in type:
+#                 if word in r_type_instructions.keys(): 
+#                     temp+=rtype(word , line.split())   
+#                     flag=True                          
+#                     break
+#                 if word in i_type_instructions.keys():
+#                     temp+=itype(word , line.split())
+#                     flag=True
+#                     break
+#                 if word in s_type_instructions.keys():
+#                     temp+=stype(word , line.split())
+#                     flag=True
+#                     break
+#                 if word in b_type_instructions.keys():
+#                     temp+=btype(word , line.split())
+#                     flag=True
+#                     break
+#                 if word in u_type_instructions.keys():
+#                     temp+=utype(word , line.split())
+#                     flag=True
+#                     break
+#                 if word in j_type_instructions.keys():
+#                     temp+=jtype(word , line.split())
+#                     flag=True
+#                     break
+#         if flag==True:
+#             break            
+>>>>>>> 2761c3cdfcf84700792937ff8ac1b4dc16ed0c5f
         
     
 
