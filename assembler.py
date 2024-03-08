@@ -172,7 +172,7 @@ def rtype(func , list):
     bintemp=""
     bintemp+=r_type_instru=l[0]
 
- def itype(func , list):
+def itype(func , list):
     bintemp=""
     bintemp+=i_type_instructions[func]["opcode"]                            #func for itype , incomplete
     
@@ -186,12 +186,12 @@ def stype(func , list):
 
 def btype(func , list):
     bintemp=""
-   bintemp+=b_type_instructions[func]["opcode"]                            #func for btype , incomplete
+    bintemp+=b_type_instructions[func]["opcode"]                            #func for btype , incomplete
    
 
- def utype(func , list):
+def utype(func , list):
      bintemp=""
-   bintemp+=u_type_instructions[func]["opcode"]                            #func for utype , incomplete
+     bintemp+=u_type_instructions[func]["opcode"]                            #func for utype , incomplete
    
 
 
@@ -214,24 +214,4 @@ for line in ip:
     else:
         label(l)
        
-        
-        
     
-
-
-                    
-
-
-
-            
-        
-
-
-
-
-
-
-
-    
-
- 
