@@ -1,1 +1,5 @@
-
+1) Possible errors in R-type instruction:
+   A) No space present after the instruction(eg.add,sub,etc)
+   B) No comma present after register-name/number
+   C) Comma present after third register-name/no.
+   D) Missing an operand in 
