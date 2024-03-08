@@ -169,7 +169,7 @@ file.close()
 
 def rtype(func , list):
     bintemp=""
-    bintemp+=r_type_instru=l[0]
+    bintemp+=r_type_instructions[0]
 
 def itype(func , list):
     bintemp=""
@@ -209,6 +209,23 @@ def get_get(line):
         return None
     else:
         return matcha.group(1)
+
+def instruction(list):
+    if list[0] in r_type_instructions.keys():
+        bintemp=""
+        registers=[reg.strip(",") for reg in list[1:]]
+        bintemp+=r_type_instructions[list[0]]["opcode"]                            #func for rtype , incomplete
+        bintemp+=register_encoding[registers[0]]
+        bintemp+=r_type_instructions[list[0]]["funct3"]
+        bintemp+=register_encoding[registers[1]]
+        bintemp+=register_encoding[registers[2]]
+        bintemp+=r_type_instructions[list[0]]["funct7"]
+    elif list[0] in s_type_instructions.keys():
+        
+
+
+
+
 
  
 label=list()
