@@ -1,3 +1,4 @@
+import re
 def binary_string(number):                 #converting decimal to binary string
     return bin(number)[2:]              
 def decimal_to_binary_twos_complement(decimal_number):
@@ -68,7 +69,16 @@ j_type_instructions = {
 }
 
 instruction_types=[r_type_instructions,i_type_instructions,s_type_instructions,b_type_instructions,u_type_instructions,j_type_instructions]
+def get_get(line):
+    m = '\b([a-zA-Z_]\w*):'
+    ran = 0
+    ran = re.compile(r'\b([a-zA-Z_]\w*):'\)
+    match = ran.search(line)
 
+    if not(not match or ' ' in match.group(1)):
+        return match.group(1).strip()
+    else:
+        return None
 register_encoding = {
     "x0": "00000",
     "zero": "00000",
@@ -200,15 +210,15 @@ def jtype(func , list):
     
 
 def get_get(line):
-    
-    reeee = re.compile(r'^\s*([a-zA-Z_]\w*):')
+    m = '\b([a-zA-Z_]\w*):'
+    ran = 0
+    ran = re.compile(r'\b([a-zA-Z_]\w*):'\)
+    match = ran.search(line)
 
-    matcha = reeee.match(line)
-
-    if not matcha:
-        return None
+    if not(not match or ' ' in match.group(1)):
+        return match.group(1).strip()
     else:
-        return matcha.group(1)
+        return None
 
 def instruction(list):
     if list[0] in r_type_instructions.keys():
@@ -226,7 +236,8 @@ def instruction(list):
 
 
 
-
+def error(l):
+    
  
 label=list()
 
@@ -238,7 +249,7 @@ for line in ip:
     m=l[0]
     for i in instruction_types:
         if m in i:
-            instruction(l)
+            instruction(l,line_no)
             break
     else:
         d = get_get(line)
@@ -254,6 +265,13 @@ for line in ip:
             break
         else:
             label.append(d)
-            continue
-       
+            gray = len(d) + 1
+            line = line[gray:]
+            if len(line) == 0:
+               continue
+            else:
+               l=line.split()
+               instruction(l,line_no)
+               continue
+            
     
