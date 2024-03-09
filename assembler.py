@@ -212,7 +212,7 @@ with open("input.txt", 'r') as file:
 ip = [line.split('#')[0].strip() for line in ip]
                         
     
-def binaryrep(decimal,totalbits):
+def Ibinaryrep(decimal,totalbits):
     if decimal== 0:
         return '0'.zfill(totalbits)
     if decimal<0:
@@ -229,18 +229,19 @@ def binaryrep(decimal,totalbits):
 
 
 
-def instruction(l,line_no,label,extra):
+def instruction(l,line_no,label):
+    bintemp=""
     if l[0] in r_type_instructions.keys():
         bintemp=""
-        registers=[reg.strip(",") for reg in list[1:]]
-        bintemp+=r_type_instructions[list[0]]["funct7"]
-        bintemp+=register_encoding[registers[2]]                          #func for rtype , incomplete
-        bintemp+=register_encoding[registers[1]]
-        bintemp+=r_type_instructions[list[0]]["funct3"]
-        bintemp+=register_encoding[registers[0]] 
-        bintemp+=r_type_instructions[list[0]]["opcode"]
+        registers=[reg.strip(",") for reg in l[1:]]
+        bintemp+=r_type_instructions[l[0]]["funct7"]
+        bintemp+=register_encoding[registers[0].split(",")[2]]                         
+        bintemp+=register_encoding[registers[0].split(",")[1]]
+        bintemp+=r_type_instructions[l[0]]["funct3"]
+        bintemp+=register_encoding[registers[0].split(",")[0]] 
+        bintemp+=r_type_instructions[l[0]]["opcode"]
     
-    if list[0] in i_type_instructions.keys():
+    elif l[0] in i_type_instructions.keys():
         bintemp=""
         if l[0]==("lw" or "lh" or "lb" or "ld"):
             bintemp +=Ibinaryrep(l[1].split(",")[1].split("(")[0],12)
@@ -256,7 +257,7 @@ def instruction(l,line_no,label,extra):
             bintemp +=register_encoding[registers[0].split(",")[0]]
             bintemp +=i_type_instructions[l[0]]["opcode"]
         
-    elif list[0] in s_type_instructions.keys():
+    elif l[0] in s_type_instructions.keys():
         bintemp=""
         x=Ibinaryrep(l[1].split(",")[1].split("(")[0],12)
         bintemp +=x[11:5]
@@ -269,22 +270,25 @@ def instruction(l,line_no,label,extra):
 
 
 
-    elif list[0] in u_type_instructions.keys():
+    elif l[0] in u_type_instructions.keys():
         bintemp=""
-        registers=[operand.strip(",")for operand in list[1:]]
+        registers=[operand.strip(",")for operand in l[1:]]
         
+        bintemp +=Ibinaryrep(registers[0].split(",")[2],20)
+        
+        bintemp+=register_encoding[registers[0].split(",")[0]] 
+        bintemp +=u_type_instructions[l[0]]["opcode"]
 
-        bintemp +=binaryrep(immediate,20)
-        bintemp +=register_encoding[registers[0]]
-        bintemp +=u_type_instructions[list[0]]["opcode"]
-
-    if list[0] in j_type_instructions.keys():
+    elif l[0] in j_type_instructions.keys():
         bintemp=""
-        registers=[operand.strip(",")for operand in list[1:]]
-        
-        bintemp +=binaryrep(immediate,20)
-        bintemp +=register_encoding[registers[0]]
-        bintemp +=j_type_instructions[list[0]]["opcode"]
+        registers=[operand.strip(",")for operand in l[1:]]
+        x +=Ibinaryrep(registers[0].split(",")[2],20)
+        bintemp +=x[20]
+        bintemp +=x[10:1]
+        bintemp +=x[11]
+        bintemp +=x[19:12]  
+        bintemp+=register_encoding[registers[0].split(",")[0]] 
+        bintemp +=j_type_instructions[l[0]]["opcode"]
         
     elif list[0] in s_type_instructions.keys():
         bintemp=""
@@ -358,4 +362,3 @@ for line in ip:
                     l=line.split()
                     instruction(l,line_no,label)
                     continue
-            
