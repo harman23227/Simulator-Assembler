@@ -24,3 +24,6 @@ Invalid label syntax
 Duplicate Label error
 Undefined Label Error
 Incomplete Instruction Error
+Error in line {}:
+
+
