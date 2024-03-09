@@ -1,4 +1,5 @@
 import re
+import sys
 
 
 
@@ -289,8 +290,7 @@ def instruction(l,line_no,label,extra):
         bintemp=""
         
 
-
-
+Message ChatGPT…
 
 
     
@@ -314,11 +314,13 @@ for line in ip:
                 g=open("output.txt","w")
                 g.write(f"Error in Line {line_no} ,Duplicate Label" )#mere lode pe
                 g.close()
+                sys.exit()
                 break
             elif d == None:
                 g=open("output.txt","w")
                 g.write(f"Error in Line {line_no} ,Invalid Expression" )#mere lode pe
                 g.close()
+                sys.exit()
                 break
             else:
                 gray = len(d) + 1
