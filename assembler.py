@@ -1,3 +1,4 @@
+import re
 def binary_string(number):                 #converting decimal to binary string
     return bin(number)[2:]              
 def decimal_to_binary_twos_complement(decimal_number):
@@ -8,6 +9,7 @@ def decimal_to_binary_twos_complement(decimal_number):
 
     return binary_string
 
+
 def fill(binary_string, num_bits,s):
     if len(binary_string) < num_bits:
         binary_string = s * (num_bits - len(binary_string)) + binary_string   #filling
@@ -16,17 +18,13 @@ def fill(binary_string, num_bits,s):
         binary_string = binary_string[-num_bits:]
     
     return binary_string
-def instruction(l):
-    f= open()
 
 
 
 
 
 
-
-def label(l);
-    f= open()
+    
 
 
 r_type_instructions = {
@@ -69,7 +67,16 @@ j_type_instructions = {
 }
 
 instruction_types=[r_type_instructions,i_type_instructions,s_type_instructions,b_type_instructions,u_type_instructions,j_type_instructions]
+def get_get(line):
+    m = r'\b([a-zA-Z_]\w*):'
+    ran = 0
+    ran = re.compile(m)
+    match = ran.search(line)
 
+    if not(not match or ' ' in match.group(1)):
+        return match.group(1).strip()
+    else:
+        return None
 register_encoding = {
     "x0": "00000",
     "zero": "00000",
@@ -170,9 +177,9 @@ file.close()
 
 def rtype(func , list):
     bintemp=""
-    bintemp+=r_type_instru=l[0]
+    bintemp+=r_type_instructions[0]
 
- def itype(func , list):
+def itype(func , list):
     bintemp=""
     bintemp+=i_type_instructions[func]["opcode"]                            #func for itype , incomplete
     
@@ -186,12 +193,12 @@ def stype(func , list):
 
 def btype(func , list):
     bintemp=""
-   bintemp+=b_type_instructions[func]["opcode"]                            #func for btype , incomplete
+    bintemp+=b_type_instructions[func]["opcode"]                            #func for btype , incomplete
    
 
- def utype(func , list):
+def utype(func , list):
      bintemp=""
-   bintemp+=u_type_instructions[func]["opcode"]                            #func for utype , incomplete
+     bintemp+=u_type_instructions[func]["opcode"]                            #func for utype , incomplete
    
 
 
@@ -199,39 +206,109 @@ def jtype(func , list):
     bintemp=""
     bintemp+=r_type_instructions[func]["opcode"]                            #func for jtype , incomplete
     
+def binaryrep(decimal,totalbits):
+    if decimal== 0:
+        return '0'.zfill(totalbits)
+    if decimal<0:
+        decimal = abs(decimal)
+        sign= '1'
+    else:
+        sign= '0'
+    binary=''
+    while decimal > 0:
+        binary = str(decimal % 2) + binary
+        decimal //= 2
+    binary = sign + binary.zfill(totalbits - 1)
+    return (binary)
+decimal=int(input())
+totalbits=int(input())
+print (binaryrep(decimal,totalbits))
 
 
+def instruction(list,line_no):
+    if list[0] in r_type_instructions.keys():
+        bintemp=""
+        registers=[reg.strip(",") for reg in list[1:]]
+        bintemp+=r_type_instructions[list[0]]["funct7"]
+        bintemp+=register_encoding[registers[2]]                          #func for rtype , incomplete
+        bintemp+=register_encoding[registers[1]]
+        bintemp+=r_type_instructions[list[0]]["funct3"]
+        bintemp+=register_encoding[registers[0]] 
+        bintemp+=r_type_instructions[list[0]]["opcode"]
+    
+    if list[0] in i_type_instructions.keys():
+        bintemp=""
+        registers=[operand.strip(",")for operand in list[1:]]
+        
+        bintemp +=binaryrep(immediate,12)
+        bintemp +=register_encoding[registers[1]]
+        bintemp +=i_type_instructions[list[0]]["funct3"]
+        bintemp +=register_encoding[registers[0]]
+        bintemp +=i_type_instructions[list[0]]["opcode"]
+        
+        
+
+    if list[0] in u_type_instructions.keys():
+        bintemp=""
+        registers=[operand.strip(",")for operand in list[1:]]
+        
+
+        bintemp +=binaryrep(immediate,20)
+        bintemp +=register_encoding[registers[0]]
+        bintemp +=u_type_instructions[list[0]]["opcode"]
+
+    if list[0] in j_type_instructions.keys():
+        bintemp=""
+        registers=[operand.strip(",")for operand in list[1:]]
+        
+        bintemp +=binaryrep(immediate,20)
+        bintemp +=register_encoding[registers[0]]
+        bintemp +=j_type_instructions[list[0]]["opcode"]
+        
+    elif list[0] in s_type_instructions.keys():
+        bintemp=""
+        
+
+
+
+
+
+    
  
+label=list()
 
-
+       
+line_no=0
 for line in ip:
+    line_no = line_no+1 
     l=line.split()
     m=l[0]
     for i in instruction_types:
         if m in i:
-            instruction(l)
+            instruction(l,line_no)
             break
     else:
-        label(l)
-       
-        
-        
-    
-
-
-                    
-
-
-
+        d = get_get(line)
+        if d in label:
+            g=open("output.txt","w")
+            g.write(f"Error in Line {line_no} ,Label already mentioned" )#mere lode pe
+            g.close()
+            break
+        if d == None:
+            g=open("output.txt","w")
+            g.write(f"Error in Line {line_no} ,Invalid Label/Expression" )#mere lode pe
+            g.close()
+            break
+        else:
+            label.append(d)
+            gray = len(d) + 1
+            line = line[gray:]
+            if len(line) == 0:
+               continue
+            else:
+               line = line.strip()
+               l=line.split()
+               instruction(l,line_no)
+               continue
             
-        
-
-
-
-
-
-
-
     
-
- 
