@@ -1,0 +1,16 @@
+Syntax error in line
+Invalid Opcode
+Invalid Register name
+Invalid label
+Missing operand
+Invalid operand
+Invalid Immediate Value
+Invalid Memory Address
+Unsupported Instruction
+File read error
+ValueError
+IndexError
+Indentation Error
+Variable used as label
+Invalid operation
+
