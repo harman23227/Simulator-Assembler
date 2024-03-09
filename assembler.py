@@ -280,7 +280,6 @@ def instruction(l,line_no,label):
         bintemp +=u_type_instructions[list[0]]["opcode"]
 
     elif l[0] in j_type_instructions.keys():
-        bintemp=""
         registers=[operand.strip(",")for operand in l[1:]]
         
         bintemp +=binaryrep(immediate,20)
