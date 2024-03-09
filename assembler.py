@@ -95,13 +95,17 @@ def get_get(line):
                 s += line[i]
             else:
                 return None
+                break
         else:
             if line[i] in "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz_":
                 s += line[i]
+                continue
             elif line[i] == ':':
                 return s
+                break
             else:
                 return None
+                break
     return None
 
 
@@ -205,7 +209,10 @@ with open("input.txt", 'r') as file:
 
 
 ip = [line.split('#')[0].strip() for line in ip]
+<<<<<<< HEAD
                         
+=======
+>>>>>>> main
     
 def binaryrep(decimal,totalbits):
     if decimal== 0:
