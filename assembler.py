@@ -1,6 +1,13 @@
 import re
+
+
+
 def binary_string(number):                 #converting decimal to binary string
-    return bin(number)[2:]              
+    return bin(number)[2:]   
+
+
+
+
 def decimal_to_binary_twos_complement(decimal_number):
     if decimal_number < 0:
         binary_string = bin(decimal_number & int("1" * (decimal_number.bit_length() + 1), 2))[2:]   #decimal to 2s complement 
@@ -68,7 +75,17 @@ j_type_instructions = {
     "jal": {"opcode": "1101111","rd":"","imm":""},
 }
 
+
+
+
 instruction_types=[r_type_instructions,i_type_instructions,s_type_instructions,b_type_instructions,u_type_instructions,j_type_instructions]
+
+
+
+
+
+
+
 def get_get(line):
     m = r'\b([a-zA-Z_]\w*):'
     ran = 0
@@ -79,6 +96,13 @@ def get_get(line):
         return match.group(1).strip()
     else:
         return None
+    
+
+
+
+
+
+
 register_encoding = {
     "x0": "00000",
     "zero": "00000",
@@ -170,43 +194,15 @@ register_encoding = {
     "r31": "11111"
 }
 
+
+
 ip=[]
 with open("input.txt", 'r') as file:
     lines = (line.strip() for line in file if line.strip() and not line.startswith('#'))   #removing uneccesary spaces and empty whitespaces plus comments
     ip = list(lines)   #storing all lines in a list
 print (ip)
-file.close()
 
-def rtype(func , list):
-    bintemp=""
-    bintemp+=r_type_instructions[0]
-
-def itype(func , list):
-    bintemp=""
-    bintemp+=i_type_instructions[func]["opcode"]                            #func for itype , incomplete
-    
-
-
-def stype(func , list):
-   bintemp=""
-   bintemp+=s_type_instructions[func]["opcode"]                            #func for stype , incomplete
-    
-
-
-def btype(func , list):
-    bintemp=""
-    bintemp+=b_type_instructions[func]["opcode"]                            #func for btype , incomplete
-   
-
-def utype(func , list):
-     bintemp=""
-     bintemp+=u_type_instructions[func]["opcode"]                            #func for utype , incomplete
-   
-
-
-def jtype(func , list):
-    bintemp=""
-    bintemp+=r_type_instructions[func]["opcode"]                            #func for jtype , incomplete
+                        
     
 def binaryrep(decimal,totalbits):
     if decimal== 0:
@@ -222,13 +218,11 @@ def binaryrep(decimal,totalbits):
         decimal //= 2
     binary = sign + binary.zfill(totalbits - 1)
     return (binary)
-decimal=int(input())
-totalbits=int(input())
-print (binaryrep(decimal,totalbits))
 
 
-def instruction(list,line_no,label):
-    if list[0] in r_type_instructions.keys():
+
+def instruction(l,line_no,label):
+    if l[0] in r_type_instructions.keys():
         bintemp=""
         registers=[reg.strip(",") for reg in list[1:]]
         bintemp+=r_type_instructions[list[0]]["funct7"]

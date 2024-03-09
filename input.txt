@@ -1,2 +1,2 @@
-fooo :
-add 
+fooo:
+get:
