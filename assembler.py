@@ -10,6 +10,8 @@ def decimal_to_binary_twos_complement(decimal_number):
     return binary_string
 
 
+
+    return result_bin
 def fill(binary_string, num_bits,s):
     if len(binary_string) < num_bits:
         binary_string = s * (num_bits - len(binary_string)) + binary_string   #filling
@@ -225,7 +227,7 @@ totalbits=int(input())
 print (binaryrep(decimal,totalbits))
 
 
-def instruction(list,line_no):
+def instruction(list,line_no,label):
     if list[0] in r_type_instructions.keys():
         bintemp=""
         registers=[reg.strip(",") for reg in list[1:]]
@@ -275,7 +277,8 @@ def instruction(list,line_no):
 
     
  
-label=list()
+label=dict()
+
 
        
 line_no=0
@@ -285,7 +288,7 @@ for line in ip:
     m=l[0]
     for i in instruction_types:
         if m in i:
-            instruction(l,line_no)
+            instruction(l,line_no,label)
             break
     else:
         d = get_get(line)
@@ -300,15 +303,17 @@ for line in ip:
             g.close()
             break
         else:
-            label.append(d)
+            pointer = line_no - 1
             gray = len(d) + 1
             line = line[gray:]
             if len(line) == 0:
+               label[d] = (pointer + 1)*4
                continue
             else:
                line = line.strip()
                l=line.split()
-               instruction(l,line_no)
+               label[d] = (pointer )*4
+               instruction(l,line_no,label)
                continue
             
     
