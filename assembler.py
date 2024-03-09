@@ -354,4 +354,3 @@ for line in ip:
                     l=line.split()
                     instruction(l,line_no,label)
                     continue
-            
