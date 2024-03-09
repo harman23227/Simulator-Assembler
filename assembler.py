@@ -86,20 +86,23 @@ instruction_types=[r_type_instructions,i_type_instructions,s_type_instructions,b
 
 
 
+
 def get_get(line):
-    m = r'\b([a-zA-Z_]\w*):'
-    ran = 0
-    ran = re.compile(m)
-    match = ran.search(line)
-
-    if not(not match or ' ' in match.group(1)):
-        return match.group(1).strip()
-    else:
-        return None
-    
-
-
-
+    s = ''
+    for i in range(len(line)):
+        if i == 0:
+            if line[i] in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_":
+                s += line[i]
+            else:
+                return None
+        else:
+            if line[i] in "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz_":
+                s += line[i]
+            elif line[i] == ':':
+                return s
+            else:
+                return None
+    return None
 
 
 
