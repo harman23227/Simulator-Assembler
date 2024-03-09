@@ -206,7 +206,23 @@ def jtype(func , list):
     bintemp=""
     bintemp+=r_type_instructions[func]["opcode"]                            #func for jtype , incomplete
     
-
+def binaryrep(decimal,totalbits):
+    if decimal== 0:
+        return '0'.zfill(totalbits)
+    if decimal<0:
+        decimal = abs(decimal)
+        sign= '1'
+    else:
+        sign= '0'
+    binary=''
+    while decimal > 0:
+        binary = str(decimal % 2) + binary
+        decimal //= 2
+    binary = sign + binary.zfill(totalbits - 1)
+    return (binary)
+decimal=int(input())
+totalbits=int(input())
+print (binaryrep(decimal,totalbits))
 
 
 def instruction(list,line_no):
@@ -219,6 +235,35 @@ def instruction(list,line_no):
         bintemp+=r_type_instructions[list[0]]["funct3"]
         bintemp+=register_encoding[registers[0]] 
         bintemp+=r_type_instructions[list[0]]["opcode"]
+    
+    if list[0] in i_type_instructions.keys():
+        bintemp=""
+        registers=[operand.strip(",")for operand in list[1:]]
+        
+        bintemp +=binaryrep(immediate,12)
+        bintemp +=register_encoding[registers[1]]
+        bintemp +=i_type_instructions[list[0]]["funct3"]
+        bintemp +=register_encoding[registers[0]]
+        bintemp +=i_type_instructions[list[0]]["opcode"]
+        
+        
+
+    if list[0] in u_type_instructions.keys():
+        bintemp=""
+        registers=[operand.strip(",")for operand in list[1:]]
+        
+
+        bintemp +=binaryrep(immediate,20)
+        bintemp +=register_encoding[registers[0]]
+        bintemp +=u_type_instructions[list[0]]["opcode"]
+
+    if list[0] in j_type_instructions.keys():
+        bintemp=""
+        registers=[operand.strip(",")for operand in list[1:]]
+        
+        bintemp +=binaryrep(immediate,20)
+        bintemp +=register_encoding[registers[0]]
+        bintemp +=j_type_instructions[list[0]]["opcode"]
         
     elif list[0] in s_type_instructions.keys():
         bintemp=""
