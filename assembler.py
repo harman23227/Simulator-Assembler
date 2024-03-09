@@ -227,8 +227,8 @@ def Ibinaryrep(decimal,totalbits):
 
 
 def instruction(l,line_no,label):
+    bintemp=""
     if l[0] in r_type_instructions.keys():
-        bintemp=""
         registers=[reg.strip(",") for reg in l[1:]]
         bintemp+=r_type_instructions[l[0]]["funct7"]
         bintemp+=register_encoding[registers[0].split(",")[2]]                         
@@ -238,7 +238,6 @@ def instruction(l,line_no,label):
         bintemp+=r_type_instructions[l[0]]["opcode"]
     
     elif l[0] in i_type_instructions.keys():
-        bintemp=""
         if l[0]==("lw" or "lh" or "lb" or "ld"):
             bintemp +=Ibinaryrep(l[1].split(",")[1].split("(")[0],12)
             bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]   #inside bracket
@@ -254,7 +253,6 @@ def instruction(l,line_no,label):
             bintemp +=i_type_instructions[l[0]]["opcode"]
         
     elif l[0] in s_type_instructions.keys():
-        bintemp=""
         x=Ibinaryrep(l[1].split(",")[1].split("(")[0],12)
         bintemp +=x[11:5]
         bintemp +=register_encoding[l[1].split(",")[0]]
@@ -267,7 +265,6 @@ def instruction(l,line_no,label):
 
 
     elif l[0] in u_type_instructions.keys():
-        bintemp=""
         registers=[operand.strip(",")for operand in l[1:]]
         
 
@@ -276,7 +273,6 @@ def instruction(l,line_no,label):
         bintemp +=u_type_instructions[l[0]]["opcode"]
 
     elif l[0] in j_type_instructions.keys():
-        bintemp=""
         registers=[operand.strip(",")for operand in l[1:]]
         
         bintemp +=Ibinaryrep(immediate,20)
