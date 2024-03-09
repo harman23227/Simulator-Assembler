@@ -95,13 +95,17 @@ def get_get(line):
                 s += line[i]
             else:
                 return None
+                break
         else:
             if line[i] in "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz_":
                 s += line[i]
+                continue
             elif line[i] == ':':
                 return s
+                break
             else:
                 return None
+                break
     return None
 
 
@@ -201,13 +205,10 @@ register_encoding = {
 
 ip=[]
 with open("input.txt", 'r') as file:
-    lines = (line.strip() for line in file if line.strip() and not line.startswith('#'))   #removing uneccesary spaces and empty whitespaces plus comments
-    ip = list(lines)   #storing all lines in a list
-with open("input.txt", 'r') as file:
-    lines = file.readlines()
-    empty_lines = sum(1 for line in lines if line.strip() == '')
+    ip = [line.strip() for line in file]
 
-                        
+
+ip = [line.split('#')[0].strip() for line in ip]
     
 def Ibinaryrep(decimal,totalbits):
     if decimal== 0:
