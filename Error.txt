@@ -1,8 +1,6 @@
-Syntax error in line
 Invalid Opcode
 Invalid Register name
 Invalid label
-Missing operand
 Invalid operand
 Invalid Immediate Value
 Invalid Memory Address
@@ -13,4 +11,13 @@ IndexError
 Indentation Error
 Variable used as label
 Invalid operation
-
+Key error
+Variable unitialized
+Overflow Error:
+Addition overflow exceeding 32-bits
+Subtraction underflow
+Recursion Error
+Syntax error in line
+Mismatched operand syntax
+Missing operand
+Invalid label syntax
