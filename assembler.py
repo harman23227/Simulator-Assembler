@@ -340,13 +340,16 @@ for line in ip:
                 break
         else:
             d = get_get(line)
-            gray = len(d) + 1
-            line = line[gray:]
-            if len(line) == 0:
+            if d == None:
                 continue
             else:
-                line = line.strip()
-                l=line.split()
-                instruction(l,line_no,label)
-                continue
+                gray = len(d) + 1
+                line = line[gray:]
+                if len(line) == 0:
+                    continue
+                else:
+                    line = line.strip()
+                    l=line.split()
+                    instruction(l,line_no,label)
+                    continue
             
