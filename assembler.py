@@ -212,7 +212,7 @@ with open("input.txt", 'r') as file:
 ip = [line.split('#')[0].strip() for line in ip]
                         
     
-def binaryrep(decimal,totalbits):
+def Ibinaryrep(decimal,totalbits):
     if decimal== 0:
         return '0'.zfill(totalbits)
     if decimal<0:
@@ -362,4 +362,3 @@ for line in ip:
                     l=line.split()
                     instruction(l,line_no,label)
                     continue
-            
