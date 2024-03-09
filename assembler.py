@@ -261,11 +261,16 @@ def instruction(l,line_no,label,extra):
         bintemp +=x[4:0]
         bintemp +=i_type_instructions[l[0]]["opcode"]
 
+<<<<<<< HEAD
 
 
 
     elif list[0] in u_type_instructions.keys():
         bintemp=""
+=======
+    if list[0] in u_type_instructions.keys():
+        bintemp=[line.split('#')[0].strip() for line in ip]
+>>>>>>> harman
         registers=[operand.strip(",")for operand in list[1:]]
         
 
