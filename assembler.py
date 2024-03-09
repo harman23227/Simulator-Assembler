@@ -267,9 +267,22 @@ def instruction(list,line_no):
         
     elif list[0] in s_type_instructions.keys():
         bintemp=""
-        
 
 
+    elif list[0] in b_type_instructions.keys():
+	bintemp = ""
+	operands = [operand.strip(",") for operand in list[1:]]
+	
+
+	#label dic,whatever to store label addresses has to be formed, etc.
+
+
+	
+	bintemp += register_encoding[operands[1]]
+	bintemp += register_encoding[operands[0]]
+	bintemp += b_type_instructions[list[0]]["funct3"]
+	bintemp += b_type_instructions[list[0]]["opcode"]
+	bintemp += bintemp[0]
 
 
 
