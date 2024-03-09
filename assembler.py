@@ -68,9 +68,9 @@ j_type_instructions = {
 
 instruction_types=[r_type_instructions,i_type_instructions,s_type_instructions,b_type_instructions,u_type_instructions,j_type_instructions]
 def get_get(line):
-    m = '\b([a-zA-Z_]\w*):'
+    m = r'\b([a-zA-Z_]\w*):'
     ran = 0
-    ran = re.compile(r'\b([a-zA-Z_]\w*):'\)
+    ran = re.compile(m)
     match = ran.search(line)
 
     if not(not match or ' ' in match.group(1)):
