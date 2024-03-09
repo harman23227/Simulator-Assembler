@@ -269,22 +269,25 @@ def instruction(l,line_no,label,extra):
 
 
 
-    elif list[0] in u_type_instructions.keys():
+    elif l[0] in u_type_instructions.keys():
         bintemp=""
-        registers=[operand.strip(",")for operand in list[1:]]
+        registers=[operand.strip(",")for operand in l[1:]]
         
+        bintemp +=Ibinaryrep(registers[0].split(",")[2],20)
+        
+        bintemp+=register_encoding[registers[0].split(",")[0]] 
+        bintemp +=u_type_instructions[l[0]]["opcode"]
 
-        bintemp +=binaryrep(immediate,20)
-        bintemp +=register_encoding[registers[0]]
-        bintemp +=u_type_instructions[list[0]]["opcode"]
-
-    if list[0] in j_type_instructions.keys():
+    elif l[0] in j_type_instructions.keys():
         bintemp=""
-        registers=[operand.strip(",")for operand in list[1:]]
-        
-        bintemp +=binaryrep(immediate,20)
-        bintemp +=register_encoding[registers[0]]
-        bintemp +=j_type_instructions[list[0]]["opcode"]
+        registers=[operand.strip(",")for operand in l[1:]]
+        x +=Ibinaryrep(registers[0].split(",")[2],20)
+        bintemp +=x[20]
+        bintemp +=x[10:1]
+        bintemp +=x[11]
+        bintemp +=x[19:12]  
+        bintemp+=register_encoding[registers[0].split(",")[0]] 
+        bintemp +=j_type_instructions[l[0]]["opcode"]
         
     elif list[0] in s_type_instructions.keys():
         bintemp=""
