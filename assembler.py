@@ -9,6 +9,7 @@ def decimal_to_binary_twos_complement(decimal_number):
 
     return binary_string
 
+
 def fill(binary_string, num_bits,s):
     if len(binary_string) < num_bits:
         binary_string = s * (num_bits - len(binary_string)) + binary_string   #filling
@@ -270,6 +271,7 @@ for line in ip:
             if len(line) == 0:
                continue
             else:
+               line = line.strip()
                l=line.split()
                instruction(l,line_no)
                continue
