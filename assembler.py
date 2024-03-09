@@ -290,7 +290,7 @@ def instruction(l,line_no,label,extra):
         bintemp=""
         
 
-Message ChatGPT…
+
 
 
     
