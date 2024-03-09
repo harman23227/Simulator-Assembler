@@ -21,3 +21,6 @@ Syntax error in line
 Mismatched operand syntax
 Missing operand
 Invalid label syntax
+Duplicate Label error
+Undefined Label Error
+Incomplete Instruction Error
