@@ -1,29 +1,30 @@
-Invalid Opcode
-Invalid Register name
-Invalid label
-Invalid operand
-Invalid Immediate Value
-Invalid Memory Address
-Unsupported Instruction
+Error in line {}:
+
+Invalid Opcode found at Line {}
+Invalid Register name found at Line {}
+Invalid operand found at Line {}
+Invalid Immediate Value found at Line {}
+Invalid Memory Address found at Line {}
+Incomplete Instruction Error at Line {}
+Unsupported Instruction at Line {}
 File read error
 ValueError
 IndexError
 Indentation Error
-Variable used as label
-Invalid operation
+Variable used as label at Line {}. Use a valid label name
+Invalid operation found at Line {}
 Key error
-Variable unitialized
+Variable unitialized at Line {}
+
 Overflow Error:
 Addition overflow exceeding 32-bits
-Subtraction underflow
-Recursion Error
-Syntax error in line
-Mismatched operand syntax
-Missing operand
-Invalid label syntax
-Duplicate Label error
-Undefined Label Error
-Incomplete Instruction Error
-Error in line {}:
+Subtraction underflow at Line {}
 
+Syntax error in line {}:
+Invalid label syntax found at Line {}
+Mismatched operand syntax found at Line {}
+Missing operand found at Line {}
+Invalid label syntax:
+Duplicate Label error at Line {}
+Undefined Label Error found at Line {}
 
