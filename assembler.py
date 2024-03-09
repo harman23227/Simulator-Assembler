@@ -237,18 +237,35 @@ def instruction(l,line_no,label,extra):
     
     if list[0] in i_type_instructions.keys():
         bintemp=""
-        registers=[operand.strip(",")for operand in list[1:]]
+        if l[0]==("lw" or "lh" or "lb" or "ld"):
+            bintemp +=Ibinaryrep(l[1].split(",")[1].split("(")[0],12)
+            bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]   #inside bracket
+            bintemp +=i_type_instructions[l[0]]["funct3"]
+            bintemp +=register_encoding[l[1].split(",")[0]]   # 2nd reg
+            bintemp +=i_type_instructions[l[0]]["opcode"]
+        else:
+            registers=[reg.strip(",") for reg in l[1:]]
+            bintemp +=Ibinaryrep(registers[0].split(",")[2],12)
+            bintemp +=register_encoding[registers[0].split(",")[1]]
+            bintemp +=i_type_instructions[l[0]]["funct3"]
+            bintemp +=register_encoding[registers[0].split(",")[0]]
+            bintemp +=i_type_instructions[l[0]]["opcode"]
         
-        bintemp +=binaryrep(immediate,12)
-        bintemp +=register_encoding[registers[1]]
-        bintemp +=i_type_instructions[list[0]]["funct3"]
-        bintemp +=register_encoding[registers[0]]
-        bintemp +=i_type_instructions[list[0]]["opcode"]
-        
-        
+    elif list[0] in s_type_instructions.keys():
+        bintemp=""
+        x=Ibinaryrep(l[1].split(",")[1].split("(")[0],12)
+        bintemp +=x[11:5]
+        bintemp +=register_encoding[l[1].split(",")[0]]
+        bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]
+        bintemp +=i_type_instructions[l[0]]["funct3"]
+        bintemp +=x[4:0]
+        bintemp +=i_type_instructions[l[0]]["opcode"]
 
-    if list[0] in u_type_instructions.keys():
-        bintemp=[line.split('#')[0].strip() for line in ip]
+
+
+
+    elif list[0] in u_type_instructions.keys():
+        bintemp=""
         registers=[operand.strip(",")for operand in list[1:]]
         
 
