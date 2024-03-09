@@ -209,7 +209,7 @@ def jtype(func , list):
 
 
 
-def instruction(list):
+def instruction(list,line_no):
     if list[0] in r_type_instructions.keys():
         bintemp=""
         registers=[reg.strip(",") for reg in list[1:]]
