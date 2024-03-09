@@ -248,7 +248,7 @@ def instruction(l,line_no,label,extra):
         
 
     if list[0] in u_type_instructions.keys():
-        bintemp=""ip = [line.split('#')[0].strip() for line in ip]
+        bintemp=[line.split('#')[0].strip() for line in ip]
         registers=[operand.strip(",")for operand in list[1:]]
         
 
