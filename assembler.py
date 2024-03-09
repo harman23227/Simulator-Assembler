@@ -1,4 +1,5 @@
 import re
+import sys
 
 
 
@@ -95,13 +96,17 @@ def get_get(line):
                 s += line[i]
             else:
                 return None
+                break
         else:
             if line[i] in "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz_":
                 s += line[i]
+                continue
             elif line[i] == ':':
                 return s
+                break
             else:
                 return None
+                break
     return None
 
 
@@ -201,15 +206,13 @@ register_encoding = {
 
 ip=[]
 with open("input.txt", 'r') as file:
-    lines = (line.strip() for line in file if line.strip() and not line.startswith('#'))   #removing uneccesary spaces and empty whitespaces plus comments
-    ip = list(lines)   #storing all lines in a list
-with open("input.txt", 'r') as file:
-    lines = file.readlines()
-    empty_lines = sum(1 for line in lines if line.strip() == '')
+    ip = [line.strip() for line in file]
 
+
+ip = [line.split('#')[0].strip() for line in ip]
                         
     
-def Ibinaryrep(decimal,totalbits):
+def binaryrep(decimal,totalbits):
     if decimal== 0:
         return '0'.zfill(totalbits)
     if decimal<0:
@@ -229,6 +232,7 @@ def Ibinaryrep(decimal,totalbits):
 def instruction(l,line_no,label):
     bintemp=""
     if l[0] in r_type_instructions.keys():
+        bintemp=""
         registers=[reg.strip(",") for reg in l[1:]]
         bintemp+=r_type_instructions[l[0]]["funct7"]
         bintemp+=register_encoding[registers[0].split(",")[2]]                         
@@ -238,6 +242,7 @@ def instruction(l,line_no,label):
         bintemp+=r_type_instructions[l[0]]["opcode"]
     
     elif l[0] in i_type_instructions.keys():
+        bintemp=""
         if l[0]==("lw" or "lh" or "lb" or "ld"):
             bintemp +=Ibinaryrep(l[1].split(",")[1].split("(")[0],12)
             bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]   #inside bracket
@@ -253,6 +258,7 @@ def instruction(l,line_no,label):
             bintemp +=i_type_instructions[l[0]]["opcode"]
         
     elif l[0] in s_type_instructions.keys():
+        bintemp=""
         x=Ibinaryrep(l[1].split(",")[1].split("(")[0],12)
         bintemp +=x[11:5]
         bintemp +=register_encoding[l[1].split(",")[0]]
@@ -265,23 +271,25 @@ def instruction(l,line_no,label):
 
 
     elif l[0] in u_type_instructions.keys():
+        bintemp=""
         registers=[operand.strip(",")for operand in l[1:]]
         
 
-        bintemp +=Ibinaryrep(immediate,20)
+        bintemp +=binaryrep(immediate,20)
         bintemp +=register_encoding[registers[0]]
-        bintemp +=u_type_instructions[l[0]]["opcode"]
+        bintemp +=u_type_instructions[list[0]]["opcode"]
 
     elif l[0] in j_type_instructions.keys():
+        bintemp=""
         registers=[operand.strip(",")for operand in l[1:]]
         
-        bintemp +=Ibinaryrep(immediate,20)
+        bintemp +=binaryrep(immediate,20)
         bintemp +=register_encoding[registers[0]]
-        bintemp +=j_type_instructions[l[0]]["opcode"]
+        bintemp +=j_type_instructions[list[0]]["opcode"]
         
-    
+    elif list[0] in s_type_instructions.keys():
+        bintemp=""
         
-
 
 
 
@@ -293,67 +301,62 @@ label=dict() #to store appropriate pointers to respective labels
 line_no=0
 for line in ip:
     line_no = line_no+1 
-    l=line.split()
-    m=l[0]
-    for i in instruction_types:
-        if m in i:
-            continue
+    if len(line)==0:
+        continue
     else:
-        nub=line_no +empty_lines
-        d = get_get(line)
-        if d in label:
-            g=open("output.txt","w")
-            g.write(f"Error in Line {nub} ,Label already mentioned" )#mere lode pe
-            g.close()
-            break
-        if d == None:
-            g=open("output.txt","w")
-            g.write(f"Error in Line {nub} ,Invalid Label/Expression" )#mere lode pe
-            g.close()
-            break
+        l=line.split()
+        m=l[0]
+        for i in instruction_types:
+            if m in i:
+                continue
         else:
-            pointer = line_no - 1
-            gray = len(d) + 1
-            line = line[gray:]
-            if len(line) == 0:
-               label[d] = (pointer + 1)*4
-               continue
+            d = get_get(line)
+            if d in label:
+                g=open("output.txt","w")
+                g.write(f"Error in Line {line_no} ,Duplicate Label" )#mere lode pe
+                g.close()
+                sys.exit()
+                break
+            elif d == None:
+                g=open("output.txt","w")
+                g.write(f"Error in Line {line_no} ,Invalid Expression" )#mere lode pe
+                g.close()
+                sys.exit()
+                break
             else:
-               line = line.strip()
-               l=line.split()
-               label[d] = (pointer)*4
-               continue
+                gray = len(d) + 1
+                line = line[gray:]
+                if len(line) == 0:
+                    label[d] = (line_no)*4
+                    continue
+                else:
+                    label[d] = (line_no-1)*4
+                    continue
        
 line_no=0
 for line in ip:
     line_no = line_no+1 
-    l=line.split()
-    m=l[0]
-    for i in instruction_types:
-        if m in i:
-            instruction(l,line_no,label,empty_lines)
-            break
+    if len(line)==0:
+        continue
     else:
-        d = get_get(line)
-        if d in label:
-            g=open("output.txt","w")
-            g.write(f"Error in Line {line_no} ,Label already mentioned" )#mere lode pe
-            g.close()
-            break
-        if d == None:
-            g=open("output.txt","w")
-            g.write(f"Error in Line {line_no} ,Invalid Label/Expression" )#mere lode pe
-            g.close()
-            break
+        l=line.split()
+        m=l[0]
+        for i in instruction_types:
+            if m in i:
+                instruction(l,line_no,label)
+                break
         else:
-            pointer = line_no - 1
-            gray = len(d) + 1
-            line = line[gray:]
-            if len(line) == 0:
-               continue
+            d = get_get(line)
+            if d == None:
+                continue
             else:
-               line = line.strip()
-               l=line.split()
-               instruction(l,line_no,label,empty_lines)
-               continue
-    
+                gray = len(d) + 1
+                line = line[gray:]
+                if len(line) == 0:
+                    continue
+                else:
+                    line = line.strip()
+                    l=line.split()
+                    instruction(l,line_no,label)
+                    continue
+            
