@@ -17,9 +17,6 @@ def fill(binary_string, num_bits,s):
         binary_string = binary_string[-num_bits:]
     
     return binary_string
-def instruction(l):
-    f= open()
-
 
 
 
@@ -224,13 +221,15 @@ def instruction(list):
     if list[0] in r_type_instructions.keys():
         bintemp=""
         registers=[reg.strip(",") for reg in list[1:]]
-        bintemp+=r_type_instructions[list[0]]["opcode"]                            #func for rtype , incomplete
-        bintemp+=register_encoding[registers[0]]
-        bintemp+=r_type_instructions[list[0]]["funct3"]
-        bintemp+=register_encoding[registers[1]]
-        bintemp+=register_encoding[registers[2]]
         bintemp+=r_type_instructions[list[0]]["funct7"]
+        bintemp+=register_encoding[registers[2]]                          #func for rtype , incomplete
+        bintemp+=register_encoding[registers[1]]
+        bintemp+=r_type_instructions[list[0]]["funct3"]
+        bintemp+=register_encoding[registers[0]] 
+        bintemp+=r_type_instructions[list[0]]["opcode"]
+        
     elif list[0] in s_type_instructions.keys():
+        bintemp=""
         
 
 
