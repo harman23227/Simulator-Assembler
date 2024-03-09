@@ -209,10 +209,7 @@ with open("input.txt", 'r') as file:
 
 
 ip = [line.split('#')[0].strip() for line in ip]
-<<<<<<< HEAD
                         
-=======
->>>>>>> main
     
 def binaryrep(decimal,totalbits):
     if decimal== 0:
