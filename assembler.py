@@ -207,16 +207,7 @@ def jtype(func , list):
     bintemp+=r_type_instructions[func]["opcode"]                            #func for jtype , incomplete
     
 
-def get_get(line):
-    m = '\b([a-zA-Z_]\w*):'
-    ran = 0
-    ran = re.compile(r'\b([a-zA-Z_]\w*):'\)
-    match = ran.search(line)
 
-    if not(not match or ' ' in match.group(1)):
-        return match.group(1).strip()
-    else:
-        return None
 
 def instruction(list):
     if list[0] in r_type_instructions.keys():
@@ -236,7 +227,7 @@ def instruction(list):
 
 
 
-def error(l):
+
     
  
 label=list()
