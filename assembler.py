@@ -331,33 +331,27 @@ for line in ip:
 line_no=0
 for line in ip:
     line_no = line_no+1 
-    l=line.split()
-    m=l[0]
-    for i in instruction_types:
-        if m in i:
-            instruction(l,line_no,label,empty_lines)
-            break
+    if len(line)==0:
+        continue
     else:
-        d = get_get(line)
-        if d in label:
-            g=open("output.txt","w")
-            g.write(f"Error in Line {line_no} ,Label already mentioned" )#mere lode pe
-            g.close()
-            break
-        if d == None:
-            g=open("output.txt","w")
-            g.write(f"Error in Line {line_no} ,Invalid Label/Expression" )#mere lode pe
-            g.close()
-            break
+        l=line.split()
+        m=l[0]
+        for i in instruction_types:
+            if m in i:
+                instruction(l,line_no,label)
+                break
         else:
-            pointer = line_no - 1
-            gray = len(d) + 1
-            line = line[gray:]
-            if len(line) == 0:
-               continue
+            d = get_get(line)
+            if d == None:
+                continue
             else:
-               line = line.strip()
-               l=line.split()
-               instruction(l,line_no,label,empty_lines)
-               continue
-    
+                gray = len(d) + 1
+                line = line[gray:]
+                if len(line) == 0:
+                    continue
+                else:
+                    line = line.strip()
+                    l=line.split()
+                    instruction(l,line_no,label)
+                    continue
+            
