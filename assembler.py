@@ -238,9 +238,9 @@ def Ibinaryrep(decimal,totalbits):
     return (binary)
 
 
-bintemp=''
-def instruction(l,line_no,label,line,bintemp):
 
+def instruction(l,line_no,label,line):
+    bintemp=''
     if l[0] in r_type_instructions.keys():
         temp = l[0]+" "
         op_lenght = len(temp)
@@ -269,7 +269,6 @@ def instruction(l,line_no,label,line,bintemp):
             sys.exit()
     
     elif l[0] in i_type_instructions.keys():
-        bintemp=""
         if l[0]=="lw":
             lin=line[3:]
             fun = lin.split(',')
@@ -491,7 +490,9 @@ def instruction(l,line_no,label,line,bintemp):
             f.write(f"Invalid syntax for jal at line {line_no}")
             f.close()
             sys.exit()
-
+    f=open("output.txt",'a')
+    f.write(bintemp)
+    f.close()
 
 
         
@@ -565,7 +566,7 @@ for line in ip:
         m=l[0]
         for i in instruction_types:
             if m in i:
-                instruction(l,line_no,label,line,bintemp)
+                instruction(l,line_no,label,line)
                 break
         else:
             d = get_get(line)
@@ -579,9 +580,6 @@ for line in ip:
                 else:
                     line = line.strip()
                     l=line.split()
-                    instruction(l,line_no,label,line,bintemp)
+                    instruction(l,line_no,label,line)
                     continue
 
-g=open("output.txt","w")
-g.write(bintemp)
-g.close()
