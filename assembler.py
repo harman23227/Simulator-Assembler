@@ -267,12 +267,38 @@ def instruction(l,line_no,label,line):
             bintemp +=register_encoding[l[1].split(",")[0]]   # 2nd reg
             bintemp +=i_type_instructions[l[0]]["opcode"]
         else:
-            registers=[reg.strip(",") for reg in l[1:]]
-            bintemp +=Ibinaryrep(registers[0].split(",")[2],12)
-            bintemp +=register_encoding[registers[0].split(",")[1]]
-            bintemp +=i_type_instructions[l[0]]["funct3"]
-            bintemp +=register_encoding[registers[0].split(",")[0]]
-            bintemp +=i_type_instructions[l[0]]["opcode"]
+            temp = l[0]+" "
+            op_lenght = len(temp)
+            lin=line[op_lenght:]
+            fun = lin.split(',')
+            space_check=lin.split()
+            if len(fun)== 3 and len(space_check) == 1:
+                if len(fun[2])>=-2048 or len(fun[2])<=2047:
+                    try:
+                        registers=[reg.strip(",") for reg in l[1:]]
+                        bintemp +=Ibinaryrep(registers[0].split(",")[2],12)
+                        bintemp +=register_encoding[registers[0].split(",")[1]]
+                        bintemp +=i_type_instructions[l[0]]["funct3"]
+                        bintemp +=register_encoding[registers[0].split(",")[0]]
+                        bintemp +=i_type_instructions[l[0]]["opcode"]
+                    except:
+                        f=open("output.txt","w")
+                        f.write(f"Invalid register call for {temp} at line {line_no}")
+                        f.close()
+                        sys.exit()
+
+                else:
+                    f=open("output.txt","w")
+                    f.write(f"Illegal immediate value for {temp} at line {line_no}")
+                    f.close()
+                    sys.exit()
+
+            else:
+                f=open("output.txt","w")
+                f.write(f"Invalid syntax for {temp} at line {line_no}")
+                f.close()
+                sys.exit()
+
         
     elif l[0] in s_type_instructions.keys():
         bintemp=""
@@ -352,13 +378,13 @@ for line in ip:
                 g.write(f"Error in Line {line_no} ,Duplicate Label" )#mere lode pe
                 g.close()
                 sys.exit()
-                break
+                
             elif d == None:
                 g=open("output.txt","w")
                 g.write(f"Error in Line {line_no} ,Invalid Syntax" )#mere lode pe
                 g.close()
                 sys.exit()
-                break
+                
             else:
                 gray = len(d) + 1
                 ld = line[gray:]
