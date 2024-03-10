@@ -254,12 +254,42 @@ def instruction(l,line_no,label,line):
     
     elif l[0] in i_type_instructions.keys():
         bintemp=""
-        if l[0]==("lw" or "lh" or "lb" or "ld"):
-            bintemp +=Immediate(l[1].split(",")[1].split("(")[0],12)
-            bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]   #inside bracket
-            bintemp +=i_type_instructions[l[0]]["funct3"]
-            bintemp +=register_encoding[l[1].split(",")[0]]   # 2nd reg
-            bintemp +=i_type_instructions[l[0]]["opcode"]
+        if l[0]=="lw":
+            lin=line[3:]
+            fun = lin.split(',')
+            space_check=lin.split()
+            if len(fun)== 2 and len(space_check) == 1:
+                tempnum=''
+                for i in lin[1]:
+                    if i in "0123456789":
+                        tempnum=tempnum+i
+                    else:
+                        break
+                if int(tempnum)>=-2048 and int(tempnum)<=2047:
+                    try:
+                        bintemp +=Immediate(l[1].split(",")[1].split("(")[0],12)
+                        bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]   #inside bracket
+                        bintemp +=i_type_instructions[l[0]]["funct3"]
+                        bintemp +=register_encoding[l[1].split(",")[0]]   # 2nd reg
+                        bintemp +=i_type_instructions[l[0]]["opcode"]
+                    except:
+                        f=open("output.txt","w")
+                        f.write(f"Invalid syntax for lw operator type at line {line_no}")
+                        f.close()
+                        sys.exit()
+                else:
+                    f=open("output.txt","w")
+                    f.write(f"Illegal immediate value for {temp} at line {line_no}")
+                    f.close()
+                    sys.exit()
+
+
+            else:
+                f=open("output.txt","w")
+                f.write(f"Invalid syntax for lw operator type at line {line_no}")
+                f.close()
+                sys.exit()
+
         else:
             temp = l[0]+" "
             op_lenght = len(temp)
@@ -267,7 +297,7 @@ def instruction(l,line_no,label,line):
             fun = lin.split(',')
             space_check=lin.split()
             if len(fun)== 3 and len(space_check) == 1:
-                if len(fun[2])>=-2048 or len(fun[2])<=2047:
+                if int(fun[2])>=-2048 and int(fun[2])<=2047:
                     try:
                         registers=[reg.strip(",") for reg in l[1:]]
                         bintemp +=Immediate(registers[0].split(",")[2],12)
