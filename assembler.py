@@ -295,56 +295,145 @@ def instruction(l,line_no,label,line):
 
         
     elif l[0] in s_type_instructions.keys():
-        bintemp=""
-        x=Immediate(l[1].split(",")[1].split("(")[0],12)
-        bintemp +=x[11:5]
-        bintemp +=register_encoding[l[1].split(",")[0]]
-        bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]
-        bintemp +=i_type_instructions[l[0]]["funct3"]
-        bintemp +=x[4:0]
-        bintemp +=i_type_instructions[l[0]]["opcode"]
+        temp = l[0]+" "
+        op_lenght = len(temp)
+        lin=line[op_lenght:]
+        fun = lin.split(',')
+        space_check=lin.split()
+        if len(fun)== 3 and len(space_check) == 1:
+            if len(fun[2])>=-2048 or len(fun[2])<=2047:
+                try:        
+                    bintemp=""
+                    x=Immediate(l[1].split(",")[1].split("(")[0],12)
+                    bintemp +=x[11:5]
+                    bintemp +=register_encoding[l[1].split(",")[0]]
+                    bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]
+                    bintemp +=i_type_instructions[l[0]]["funct3"]
+                    bintemp +=x[4:0]
+                    bintemp +=i_type_instructions[l[0]]["opcode"]
+                except:
+                    f=open("output.txt","w")
+                    f.write(f"Invalid register call for {temp} at line {line_no}")
+                    f.close()
+                    sys.exit()
+            else:
+                f=open("output.txt","w")
+                f.write(f"Illegal immediate value for {temp} at line {line_no}")
+                f.close()
+                sys.exit()
+        else:
+            f=open("output.txt","w")
+            f.write(f"Invalid syntax for {temp} at line {line_no}")
+            f.close()
+            sys.exit()
 
     elif l[0] in b_type_instructions.keys():
-        bintemp=""
-        registers=[reg.strip(",") for reg in l[1:]]
-        x=Immediate(registers[0].split(",")[2],12)
-        bintemp+=x[12]
-        bintemp+=x[10:5]
-        bintemp+=register_encoding[registers[0].split(",")[1]]
-        bintemp+=register_encoding[registers[0].split(",")[0]] 
-        bintemp +=i_type_instructions[l[0]]["funct3"]
-        bintemp+=x[4:1]
-        bintemp+=x[11]
-        bintemp +=i_type_instructions[l[0]]["opcode"]
+        temp = l[0]+" "
+        op_lenght = len(temp)
+        lin=line[op_lenght:]
+        fun = lin.split(',')
+        space_check=lin.split()
+        if len(fun)== 3 and len(space_check) == 1:
+            if len(fun[2])>=-2048 or len(fun[2])<=2047:
+                try: 
+                    bintemp=""
+                    registers=[reg.strip(",") for reg in l[1:]]
+                    x=Immediate(registers[0].split(",")[2],12)
+                    bintemp+=x[12]
+                    bintemp+=x[10:5]
+                    bintemp+=register_encoding[registers[0].split(",")[1]]
+                    bintemp+=register_encoding[registers[0].split(",")[0]] 
+                    bintemp +=i_type_instructions[l[0]]["funct3"]
+                    bintemp+=x[4:1]
+                    bintemp+=x[11]
+                    bintemp +=i_type_instructions[l[0]]["opcode"]
+                except:
+                    f=open("output.txt","w")
+                    f.write(f"Invalid register call for {temp} at line {line_no}")
+                    f.close()
+                    sys.exit()
+            else:
+                f=open("output.txt","w")
+                f.write(f"Illegal immediate value for {temp} at line {line_no}")
+                f.close()
+                sys.exit()
+        else:
+            f=open("output.txt","w")
+            f.write(f"Invalid syntax for {temp} at line {line_no}")
+            f.close()
+            sys.exit()
+                    
 
 
     elif l[0] in u_type_instructions.keys():
-        bintemp=""
-        registers=[operand.strip(",")for operand in l[1:]]
-        
-        bintemp +=Immediate(registers[0].split(",")[2],20)
-        
-        bintemp+=register_encoding[registers[0].split(",")[0]] 
-        bintemp +=u_type_instructions[l[0]]["opcode"]
+        temp = l[0]+" "
+        op_lenght = len(temp)
+        lin=line[op_lenght:]
+        fun = lin.split(',')
+        space_check=lin.split()
+        if len(fun)== 3 and len(space_check) == 1:
+            if len(fun[2])>=-524288 or len(fun[2])<=524287:
+                try:
+                    bintemp=""
+                    registers=[operand.strip(",")for operand in l[1:]]
+                    bintemp +=Immediate(registers[0].split(",")[2],20)
+                    bintemp+=register_encoding[registers[0].split(",")[0]] 
+                    bintemp +=u_type_instructions[l[0]]["opcode"]
+                except:
+                    f=open("output.txt","w")
+                    f.write(f"Invalid register call for {temp} at line {line_no}")
+                    f.close()
+                    sys.exit()
+
+            else:
+                f=open("output.txt","w")
+                f.write(f"Illegal immediate value for {temp} at line {line_no}")
+                f.close()
+                sys.exit()
+
+        else:
+            f=open("output.txt","w")
+            f.write(f"Invalid syntax for {temp} at line {line_no}")
+            f.close()
+            sys.exit()
 
     elif l[0] in j_type_instructions.keys():
-        bintemp=""
-        registers=[operand.strip(",")for operand in l[1:]]
-        x +=Immediate(registers[0].split(",")[2],20)
-        bintemp +=x[20]
-        bintemp +=x[10:1]
-        bintemp +=x[11]
-        bintemp +=x[19:12]  
-        bintemp+=register_encoding[registers[0].split(",")[0]] 
-        bintemp +=j_type_instructions[l[0]]["opcode"]
+        temp = l[0]+" "
+        op_lenght = len(temp)
+        lin=line[op_lenght:]
+        fun = lin.split(',')
+        space_check=lin.split()
+        if len(fun)== 3 and len(space_check) == 1:
+            if len(fun[2])>=-524288 or len(fun[2])<=524287:
+                try:
+                    bintemp=""
+                    registers=[operand.strip(",")for operand in l[1:]]
+                    x +=Immediate(registers[0].split(",")[2],20)
+                    bintemp +=x[20]
+                    bintemp +=x[10:1]
+                    bintemp +=x[11]
+                    bintemp +=x[19:12]  
+                    bintemp+=register_encoding[registers[0].split(",")[0]] 
+                    bintemp +=j_type_instructions[l[0]]["opcode"]
+                except:
+                    f=open("output.txt","w")
+                    f.write(f"Invalid register call for {temp} at line {line_no}")
+                    f.close()
+                    sys.exit()
+
+            else:
+                f=open("output.txt","w")
+                f.write(f"Illegal immediate value for {temp} at line {line_no}")
+                f.close()
+                sys.exit()
+
+        else:
+            f=open("output.txt","w")
+            f.write(f"Invalid syntax for {temp} at line {line_no}")
+            f.close()
+            sys.exit()
 
 
-
-    else:
-        f=open("output.txt","w")
-        f.write(f"Error:Invalid Syntax after label at line no:{line_no}")
-        f.close()
-        sys.exit()
 
         
 
@@ -432,6 +521,6 @@ for line in ip:
                     l=line.split()
                     instruction(l,line_no,label,line)
                     continue
-with open("output.txt", "a") as out_file:
-    out_file.write(bintemp)
-print(out_file)
+with open("output.txt", "a") as f:
+    f.write(bintemp)
+    f.close()
