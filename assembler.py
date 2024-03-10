@@ -229,17 +229,34 @@ def Ibinaryrep(decimal,totalbits):
 
 
 
-def instruction(l,line_no,label):
-    bintemp=""
+def instruction(l,line_no,label,line):
     if l[0] in r_type_instructions.keys():
-        bintemp=""
-        registers=[reg.strip(",") for reg in l[1:]]
-        bintemp+=r_type_instructions[l[0]]["funct7"]
-        bintemp+=register_encoding[registers[0].split(",")[2]]                         
-        bintemp+=register_encoding[registers[0].split(",")[1]]
-        bintemp+=r_type_instructions[l[0]]["funct3"]
-        bintemp+=register_encoding[registers[0].split(",")[0]] 
-        bintemp+=r_type_instructions[l[0]]["opcode"]
+        temp = l[0]+" "
+        op_lenght = len(temp)
+        lin=line[op_lenght:]
+        fun = lin.split(',')
+        space_check=lin.split()
+        if len(fun)== 3 and len(space_check) == 1:
+            try:
+                bintemp=""
+                registers=[reg.strip(",") for reg in l[1:]]
+                bintemp+=r_type_instructions[l[0]]["funct7"]
+                bintemp+=register_encoding[registers[0].split(",")[2]]                         
+                bintemp+=register_encoding[registers[0].split(",")[1]]
+                bintemp+=r_type_instructions[l[0]]["funct3"]
+                bintemp+=register_encoding[registers[0].split(",")[0]] 
+                bintemp+=r_type_instructions[l[0]]["opcode"]
+            except:
+                f=open("output.txt","w")
+                f.write(f"Invalid register call for {temp} at line {line_no}")
+                f.close()
+                sys.exit()
+
+        else:
+            f=open("output.txt","w")
+            f.write(f"Invalid syntax for {temp} at line {line_no}")
+            f.close()
+            sys.exit()
     
     elif l[0] in i_type_instructions.keys():
         bintemp=""
@@ -372,7 +389,7 @@ for line in ip:
         m=l[0]
         for i in instruction_types:
             if m in i:
-                instruction(l,line_no,label)
+                instruction(l,line_no,label,line)
                 break
         else:
             d = get_get(line)
@@ -386,5 +403,5 @@ for line in ip:
                 else:
                     line = line.strip()
                     l=line.split()
-                    instruction(l,line_no,label)
+                    instruction(l,line_no,label,line)
                     continue
