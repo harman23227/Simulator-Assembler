@@ -246,7 +246,6 @@ def instruction(l,line_no,label,line):
                 f.write(f"Invalid register call for {temp} at line {line_no}")
                 f.close()
                 sys.exit()
-
         else:
             f=open("output.txt","w")
             f.write(f"Invalid syntax for {temp} at line {line_no}")
@@ -323,7 +322,7 @@ def instruction(l,line_no,label,line):
         bintemp=""
         registers=[operand.strip(",")for operand in l[1:]]
         
-        bintemp +=Ibinaryrep(registers[0].split(",")[2],20)
+        bintemp +=Immediate(registers[0].split(",")[2],20)
         
         bintemp+=register_encoding[registers[0].split(",")[0]] 
         bintemp +=u_type_instructions[l[0]]["opcode"]
@@ -331,18 +330,13 @@ def instruction(l,line_no,label,line):
     elif l[0] in j_type_instructions.keys():
         bintemp=""
         registers=[operand.strip(",")for operand in l[1:]]
-        x +=Ibinaryrep(registers[0].split(",")[2],20)
+        x +=Immediate(registers[0].split(",")[2],20)
         bintemp +=x[20]
         bintemp +=x[10:1]
         bintemp +=x[11]
         bintemp +=x[19:12]  
         bintemp+=register_encoding[registers[0].split(",")[0]] 
         bintemp +=j_type_instructions[l[0]]["opcode"]
-
-        
-    elif list[0] in s_type_instructions.keys():
-        bintemp=""
-
 
 
 
