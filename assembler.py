@@ -10,18 +10,25 @@ def binary_string(number):                 #converting decimal to binary string
 
 
 def Immediate(decimal_number, num_bits):
+   
     if decimal_number < 0:
-        binary_string = bin(decimal_number & int("1" * (decimal_number.bit_length() + 1), 2))[2:]   #decimal to 2s complement 
+        binary_string = bin(decimal_number & int("1" * (decimal_number.bit_length() + 1), 2))[2:]   # Decimal to 2's complement 
     else:
         binary_string = bin(decimal_number)[2:]
 
+   
     if len(binary_string) < num_bits:
-        binary_string = binary_string[0] * (num_bits - len(binary_string)) + binary_string   #filling
+        if decimal_number < 0:
+            binary_string = '1' * (num_bits - len(binary_string)) + binary_string  
+        else:                                                                           #filling
+            binary_string = '0' * (num_bits - len(binary_string)) + binary_string
     
     elif len(binary_string) > num_bits:
         binary_string = binary_string[-num_bits:]
     
     return binary_string
+
+
 
 
 
@@ -131,7 +138,16 @@ register_encoding = {
     "x7": "00111",
     "t2": "00111",
     "r6": "00111",
+    "x8":"01000",
+    "r8":"01000",
+    "s0":"01000",
+    "fp":"01000",
+    "x9":"01001",
+    "r9":"01001",
+    "s1":"01001",
     "r10": "01010",
+    "x10":"01010",
+    "a0":"01010",
     "x11": "01011",
     "a1": "01011",
     "r11": "01011",
