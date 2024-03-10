@@ -246,7 +246,6 @@ def instruction(l,line_no,label,line):
                 f.write(f"Invalid register call for {temp} at line {line_no}")
                 f.close()
                 sys.exit()
-
         else:
             f=open("output.txt","w")
             f.write(f"Invalid syntax for {temp} at line {line_no}")
