@@ -292,6 +292,16 @@ def instruction(l,line_no,label):
         
     elif list[0] in s_type_instructions.keys():
         bintemp=""
+
+
+
+
+    else:
+        f=open("output.txt","w")
+        f.write(f"Error:Invalid Syntax after label at line no:{line_no}")
+        f.close()
+        sys.exit()
+
         
 
 
@@ -300,17 +310,23 @@ def instruction(l,line_no,label):
     
  
 label=dict() #to store appropriate pointers to respective labels
+v_halt="beq zero,zero,0" #to check for virtual halt
+count_halt=0 #To check the count for virtual halt
 
 line_no=0
+pointer=0
 for line in ip:
     line_no = line_no+1 
     if len(line)==0:
         continue
     else:
+        pointer = pointer + 1
         l=line.split()
         m=l[0]
         for i in instruction_types:
             if m in i:
+                if line==v_halt:
+                    count_halt=count_halt+1
                 continue
         else:
             d = get_get(line)
@@ -322,19 +338,29 @@ for line in ip:
                 break
             elif d == None:
                 g=open("output.txt","w")
-                g.write(f"Error in Line {line_no} ,Invalid Expression" )#mere lode pe
+                g.write(f"Error in Line {line_no} ,Invalid Syntax" )#mere lode pe
                 g.close()
                 sys.exit()
                 break
             else:
                 gray = len(d) + 1
-                line = line[gray:]
-                if len(line) == 0:
-                    label[d] = (line_no)*4
+                ld = line[gray:]
+                if len(ld) == 0:
+                    label[d] = (pointer)*4
                     continue
                 else:
-                    label[d] = (line_no-1)*4
+                    ld = ld.strip()
+                    if ld==v_halt:
+                        count_halt=count_halt+1
+                    label[d] = (pointer-1)*4
                     continue
+
+if count_halt==0:
+    f=open("output.txt","w") 
+    f.write("Error:No Virtual Halt in Program")
+    f.close()
+    sys.exit()
+
        
 line_no=0
 for line in ip:
