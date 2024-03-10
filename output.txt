@@ -1,1 +1,1 @@
-Invalid register call for beq  at line 10
+Invalid syntax for lw operator type at line 1
