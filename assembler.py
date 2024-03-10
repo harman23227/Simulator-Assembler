@@ -247,7 +247,7 @@ def instruction(l,line_no,label,line,bintemp):
         lin=line[op_lenght:]
         fun = lin.split(',')
         space_check=lin.split()
-        if True:
+        if len(fun)== 3 and len(space_check) == 1:
             try:
                 registers=[reg.strip(",") for reg in l[1:]]
                 bintemp+=r_type_instructions[l[0]]["funct7"]
@@ -274,7 +274,7 @@ def instruction(l,line_no,label,line,bintemp):
             lin=line[3:]
             fun = lin.split(',')
             space_check=lin.split()
-            if True:
+            if len(fun)== 2 and len(space_check) == 1:
                 tempnum=''
                 for i in lin[1]:
                     if i in "0123456789":
@@ -282,14 +282,18 @@ def instruction(l,line_no,label,line,bintemp):
                     else:
                         break
                 if int(tempnum)>=-2048 and int(tempnum)<=2047:
-                    
-                        bintemp +=Immediate(l[1].split(",")[1].split("(")[0],12)
+                    try:
+                        bintemp +=Immediate(int(l[1].split(",")[1].split("(")[0]),12)
                         bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]   #inside bracket
                         bintemp +=i_type_instructions[l[0]]["funct3"]
                         bintemp +=register_encoding[l[1].split(",")[0]]   # 2nd reg
                         bintemp +=i_type_instructions[l[0]]["opcode"]
                         bintemp=bintemp+'\n'
-                    
+                    except:
+                        f=open("output.txt","w")
+                        f.write(f"Invalid syntax for lw operator type at line {line_no}")
+                        f.close()
+                        sys.exit()
                 else:
                     f=open("output.txt","w")
                     f.write(f"Illegal immediate value for lw at line {line_no}")
@@ -309,11 +313,11 @@ def instruction(l,line_no,label,line,bintemp):
             lin=line[op_lenght:]
             fun = lin.split(',')
             space_check=lin.split()
-            if True:
+            if len(fun)== 3 and len(space_check) == 1:
                 if int(fun[2])>=-2048 and int(fun[2])<=2047:
                     try:
                         registers=[reg.strip(",") for reg in l[1:]]
-                        bintemp +=Immediate(registers[0].split(",")[2],12)
+                        bintemp +=Immediate(int(registers[0].split(",")[2]),12)
                         bintemp +=register_encoding[registers[0].split(",")[1]]
                         bintemp +=i_type_instructions[l[0]]["funct3"]
                         bintemp +=register_encoding[registers[0].split(",")[0]]
@@ -343,7 +347,7 @@ def instruction(l,line_no,label,line,bintemp):
         lin = line[3:]
         fun = lin.split(',')
         space_check=lin.split()
-        if True:
+        if len(fun)== 2 and len(space_check) == 1:
             tempnum=''
             for i in lin[1]:
                 if i in "0123456789":
@@ -353,7 +357,7 @@ def instruction(l,line_no,label,line,bintemp):
             if int(tempnum)>=-2048 and int(tempnum)<=2047:
                 try:
                     x=''
-                    x=Immediate(l[1].split(",")[1].split("(")[0],12)
+                    x=Immediate(int(l[1].split(",")[1].split("(")[0]),12)
                     bintemp +=x[11:5]
                     bintemp +=register_encoding[l[1].split(",")[0]]
                     bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]
@@ -388,12 +392,12 @@ def instruction(l,line_no,label,line,bintemp):
         lin=line[op_lenght:]
         fun = lin.split(',')
         space_check=lin.split()
-        if True:
+        if len(fun)== 3 and len(space_check) == 1:
             if int(fun[2])>=-4096 and int(fun[2])<=4095:
                 try: 
                     x=''
                     registers=[reg.strip(",") for reg in l[1:]]
-                    x=Immediate(registers[0].split(",")[2],12)
+                    x=Immediate(int(registers[0].split(",")[2]),12)
                     bintemp+=x[12]
                     bintemp+=x[10:5]
                     bintemp+=register_encoding[registers[0].split(",")[1]]
@@ -427,11 +431,11 @@ def instruction(l,line_no,label,line,bintemp):
         lin=line[op_lenght:]
         fun = lin.split(',')
         space_check=lin.split()
-        if True:
+        if len(fun)== 2 and len(space_check) == 1:
             if len(fun[1])>= -2147483648 or len(fun[1])<=2147483647:
                 try:
                     registers=[operand.strip(",")for operand in l[1:]]
-                    bintemp +=Immediate(registers[0].split(",")[2],20)
+                    bintemp +=Immediate(int(registers[0].split(",")[2]),20)
                     bintemp+=register_encoding[registers[0].split(",")[0]] 
                     bintemp +=u_type_instructions[l[0]]["opcode"]
                     bintemp=bintemp+'\n'
@@ -457,12 +461,12 @@ def instruction(l,line_no,label,line,bintemp):
         lin=line[4:]
         fun = lin.split(',')
         space_check=lin.split()
-        if True:
+        if len(fun)== 2 and len(space_check) == 1:
             if len(fun[1])>= -1048576 or len(fun[1])<=1048575:
                 try:
                     x=''
                     registers=[operand.strip(",")for operand in l[1:]]
-                    x +=Immediate(registers[0].split(",")[2],20)
+                    x +=Immediate(int(registers[0].split(",")[2]),20)
                     bintemp +=x[20]
                     bintemp +=x[10:1]
                     bintemp +=x[11]
@@ -499,7 +503,7 @@ def instruction(l,line_no,label,line,bintemp):
  
 label=dict() #to store appropriate pointers to respective labels
 v_halt="beq zero,zero,0" #to check for virtual halt
-count_halt=1 #To check the count for virtual halt
+count_halt=0 #To check the count for virtual halt
 
 line_no=0
 pointer=0
@@ -578,7 +582,6 @@ for line in ip:
                     instruction(l,line_no,label,line,bintemp)
                     continue
 
-g=open("output.txt","a")
+g=open("output.txt","w")
 g.write(bintemp)
-g.write("test")
 g.close()
