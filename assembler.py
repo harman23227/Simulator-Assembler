@@ -393,7 +393,7 @@ def instruction(l,line_no,label,line,bintemp):
         fun = lin.split(',')
         space_check=lin.split()
         if len(fun)== 3 and len(space_check) == 1:
-            if int(fun[2])>=-4096 or int(fun[2])<=4095:
+            if int(fun[2])>=-4096 and int(fun[2])<=4095:
                 try: 
                     x=''
                     registers=[reg.strip(",") for reg in l[1:]]
@@ -515,11 +515,12 @@ for line in ip:
         pointer = pointer + 1
         l=line.split()
         m=l[0]
+        cc=0
         for i in instruction_types:
             if m in i:
                 if line==v_halt:
                     count_halt=count_halt+1
-                continue
+                break
         else:
             d = get_get(line)
             if d in label:
