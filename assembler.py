@@ -9,25 +9,20 @@ def binary_string(number):                 #converting decimal to binary string
 
 
 
-def decimal_to_binary_twos_complement(decimal_number):
+def Immediate(decimal_number, num_bits):
     if decimal_number < 0:
         binary_string = bin(decimal_number & int("1" * (decimal_number.bit_length() + 1), 2))[2:]   #decimal to 2s complement 
     else:
         binary_string = bin(decimal_number)[2:]
 
-    return binary_string
-
-
-
-    return result_bin
-def fill(binary_string, num_bits,s):
     if len(binary_string) < num_bits:
-        binary_string = s * (num_bits - len(binary_string)) + binary_string   #filling
+        binary_string = binary_string[0] * (num_bits - len(binary_string)) + binary_string   #filling
     
     elif len(binary_string) > num_bits:
         binary_string = binary_string[-num_bits:]
     
     return binary_string
+
 
 
 
@@ -261,14 +256,14 @@ def instruction(l,line_no,label,line):
     elif l[0] in i_type_instructions.keys():
         bintemp=""
         if l[0]==("lw" or "lh" or "lb" or "ld"):
-            bintemp +=Ibinaryrep(l[1].split(",")[1].split("(")[0],12)
+            bintemp +=Immediate(l[1].split(",")[1].split("(")[0],12)
             bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]   #inside bracket
             bintemp +=i_type_instructions[l[0]]["funct3"]
             bintemp +=register_encoding[l[1].split(",")[0]]   # 2nd reg
             bintemp +=i_type_instructions[l[0]]["opcode"]
         else:
             registers=[reg.strip(",") for reg in l[1:]]
-            bintemp +=Ibinaryrep(registers[0].split(",")[2],12)
+            bintemp +=Immediate(registers[0].split(",")[2],12)
             bintemp +=register_encoding[registers[0].split(",")[1]]
             bintemp +=i_type_instructions[l[0]]["funct3"]
             bintemp +=register_encoding[registers[0].split(",")[0]]
@@ -276,7 +271,7 @@ def instruction(l,line_no,label,line):
         
     elif l[0] in s_type_instructions.keys():
         bintemp=""
-        x=Ibinaryrep(l[1].split(",")[1].split("(")[0],12)
+        x=Immediate(l[1].split(",")[1].split("(")[0],12)
         bintemp +=x[11:5]
         bintemp +=register_encoding[l[1].split(",")[0]]
         bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]
@@ -284,7 +279,18 @@ def instruction(l,line_no,label,line):
         bintemp +=x[4:0]
         bintemp +=i_type_instructions[l[0]]["opcode"]
 
-
+    elif l[0] in b_type_instructions.keys():
+        bintemp=""
+        registers=[reg.strip(",") for reg in l[1:]]
+        x=Immediate(registers[0].split(",")[2],12)
+        bintemp+=x[12]
+        bintemp+=x[10:5]
+        bintemp+=register_encoding[registers[0].split(",")[1]]
+        bintemp+=register_encoding[registers[0].split(",")[0]] 
+        bintemp +=i_type_instructions[l[0]]["funct3"]
+        bintemp+=x[4:1]
+        bintemp+=x[11]
+        bintemp +=i_type_instructions[l[0]]["opcode"]
 
 
     elif l[0] in u_type_instructions.keys():
@@ -306,6 +312,7 @@ def instruction(l,line_no,label,line):
         bintemp +=x[19:12]  
         bintemp+=register_encoding[registers[0].split(",")[0]] 
         bintemp +=j_type_instructions[l[0]]["opcode"]
+
         
     elif list[0] in s_type_instructions.keys():
         bintemp=""
@@ -352,13 +359,11 @@ for line in ip:
                 g.write(f"Error in Line {line_no} ,Duplicate Label" )#mere lode pe
                 g.close()
                 sys.exit()
-                break
             elif d == None:
                 g=open("output.txt","w")
                 g.write(f"Error in Line {line_no} ,Invalid Syntax" )#mere lode pe
                 g.close()
                 sys.exit()
-                break
             else:
                 gray = len(d) + 1
                 ld = line[gray:]
