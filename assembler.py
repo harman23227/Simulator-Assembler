@@ -279,7 +279,7 @@ def instruction(l,line_no,label,line):
                         sys.exit()
                 else:
                     f=open("output.txt","w")
-                    f.write(f"Illegal immediate value for {temp} at line {line_no}")
+                    f.write(f"Illegal immediate value for lw at line {line_no}")
                     f.close()
                     sys.exit()
 
@@ -307,7 +307,7 @@ def instruction(l,line_no,label,line):
                         bintemp +=i_type_instructions[l[0]]["opcode"]
                     except:
                         f=open("output.txt","w")
-                        f.write(f"Invalid register call for {temp} at line {line_no}")
+                        f.write(f"Invalid Syntax call for {temp} at line {line_no}")
                         f.close()
                         sys.exit()
 
@@ -322,17 +322,50 @@ def instruction(l,line_no,label,line):
                 f.write(f"Invalid syntax for {temp} at line {line_no}")
                 f.close()
                 sys.exit()
+        
 
         
     elif l[0] in s_type_instructions.keys():
-        bintemp=""
-        x=Immediate(l[1].split(",")[1].split("(")[0],12)
-        bintemp +=x[11:5]
-        bintemp +=register_encoding[l[1].split(",")[0]]
-        bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]
-        bintemp +=i_type_instructions[l[0]]["funct3"]
-        bintemp +=x[4:0]
-        bintemp +=i_type_instructions[l[0]]["opcode"]
+        lin = line[3:]
+        fun = lin.split(',')
+        space_check=lin.split()
+        if len(fun)== 2 and len(space_check) == 1:
+            tempnum=''
+            for i in lin[1]:
+                if i in "0123456789":
+                    tempnum=tempnum+i
+                else:
+                    break
+            if int(tempnum)>=-2048 and int(tempnum)<=2047:
+                try:
+                    bintemp = ""
+                    x=Immediate(l[1].split(",")[1].split("(")[0],12)
+                    bintemp +=x[11:5]
+                    bintemp +=register_encoding[l[1].split(",")[0]]
+                    bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]
+                    bintemp +=i_type_instructions[l[0]]["funct3"]
+                    bintemp +=x[4:0]
+                    bintemp +=i_type_instructions[l[0]]["opcode"]
+                except:
+                    f=open("output.txt","w")
+                    f.write(f"Invalid syntax for sw operator type at line {line_no}")
+                    f.close()
+                    sys.exit()
+            else:
+                f=open("output.txt","w")
+                f.write(f"Illegal immediate value for sw at line {line_no}")
+                f.close()
+                sys.exit()
+        else:
+            f=open("output.txt","w")
+            f.write(f"Invalid syntax for sw operator type at line {line_no}")
+            f.close()
+            sys.exit()
+
+
+
+
+
 
     elif l[0] in b_type_instructions.keys():
         bintemp=""
