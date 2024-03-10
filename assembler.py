@@ -462,3 +462,6 @@ for line in ip:
                     l=line.split()
                     instruction(l,line_no,label,line)
                     continue
+with open("output.txt", "a") as out_file:
+    out_file.write(bintemp)
+print(out_file)
