@@ -422,7 +422,7 @@ def instruction(l,line_no,label,line):
                     try:
                         im = label[fun[2]]
                         registers=[reg.strip(",") for reg in l[1:]]          #0000000000000001100011
-                        x=Immediate(int(registers[0].split(",")[2]),13)[::-1]     #00000000000000000000000001100011
+                        x=Immediate(im,13)[::-1]     #00000000000000000000000001100011
                         bintemp+=x[12]
                         bintemp+=x[10:4:-1]
                         bintemp+=register_encoding[registers[0].split(",")[1]]
