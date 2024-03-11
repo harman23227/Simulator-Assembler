@@ -357,11 +357,12 @@ def instruction(l,line_no,label,line):
                 try:
                     x=''
                     x=Immediate(int(l[1].split(",")[1].split("(")[0]),12)
-                    bintemp +=x[11:5:-1]
+                    bintemp +=x[11:4:-1]
                     bintemp +=register_encoding[l[1].split(",")[0]]
                     bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]
                     bintemp +=s_type_instructions[l[0]]["funct3"]
                     bintemp +=x[4:0:-1]
+                    bintemp +=x[0]
                     bintemp +=s_type_instructions[l[0]]["opcode"]
                     bintemp=bintemp+'\n'
                 except:
@@ -466,9 +467,9 @@ def instruction(l,line_no,label,line):
                     registers=[operand.strip(",")for operand in l[1:]]
                     x +=Immediate(int(registers[0].split(",")[1]),21)
                     bintemp +=x[20]
-                    bintemp +=x[10:1:-1]
+                    bintemp +=x[10:0:-1]
                     bintemp +=x[11]
-                    bintemp +=x[19:12:-1]  
+                    bintemp +=x[19:11:-1]  
                     bintemp+=register_encoding[registers[0].split(",")[0]] 
                     bintemp +=j_type_instructions[l[0]]["opcode"]
                     bintemp=bintemp+'\n'
