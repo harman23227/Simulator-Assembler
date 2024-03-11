@@ -431,7 +431,7 @@ def instruction(l,line_no,label,line):
         fun = lin.split(',')
         space_check=lin.split()
         if len(fun)== 2 and len(space_check) == 1:
-            if len(fun[1])>= -2147483648 or len(fun[1])<=2147483647:
+            if len(fun[1])>= -1048576 or len(fun[1])<=1048575:
                 try:
                     registers=[operand.strip(",")for operand in l[1:]]
                     bintemp +=Immediate(int(registers[0].split(",")[2]),20)
