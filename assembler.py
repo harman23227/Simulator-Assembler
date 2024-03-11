@@ -395,14 +395,14 @@ def instruction(l,line_no,label,line):
             if int(fun[2])>=-4096 and int(fun[2])<=4095:
                 print(l)
                 try: 
-                    registers=[reg.strip(",") for reg in l[1:]]
-                    x=Immediate(int(registers[0].split(",")[2]),13)
+                    registers=[reg.strip(",") for reg in l[1:]]          #0000000000000001100011
+                    x=Immediate(int(registers[0].split(",")[2]),13)     #00000000000000000000000001100011
                     bintemp+=x[12]
-                    bintemp+=x[10:5]
+                    bintemp+=x[10:5:-1]
                     bintemp+=register_encoding[registers[0].split(",")[1]]
                     bintemp+=register_encoding[registers[0].split(",")[0]] 
                     bintemp +=b_type_instructions[l[0]]["funct3"]
-                    bintemp+=x[4:1]
+                    bintemp+=x[4:1:-1]
                     bintemp+=x[11]
                     bintemp +=b_type_instructions[l[0]]["opcode"]
                     bintemp=bintemp+'\n'
