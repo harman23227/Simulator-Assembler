@@ -8,24 +8,24 @@ def binary_string(number):                 #converting decimal to binary string
 
 
 
-def Immediate(decimal_number, num_bits):
+def Immediate(n,b):
    
-    if decimal_number < 0:
-        binary_string = bin(decimal_number & int("1" * (decimal_number.bit_length() + 1), 2))[2:]   # Decimal to 2's complement 
+    if n >=0:
+        binary = bin(n)[2:]
     else:
-        binary_string = bin(decimal_number)[2:]
+        binary = bin(n & int("1" * (n.bit_length() + 1), 2))[2:]
 
    
-    if len(binary_string) < num_bits:
-        if decimal_number < 0:
-            binary_string = '1' * (num_bits - len(binary_string)) + binary_string  
-        else:                                                                           #filling
-            binary_string = '0' * (num_bits - len(binary_string)) + binary_string
-    
-    elif len(binary_string) > num_bits:
-        binary_string = binary_string[-num_bits:]
-    
-    return binary_string
+    if len(binary) < b:
+        if n >= 0:
+            binary = '0' * (b - len(binary)) + binary
+        else:                                                                       
+            binary = '1' * (b - len(binary)) + binary
+    elif len(binary) > b:
+        binary = binary[-b:]
+        
+    print (binary)
+
 
 
 
