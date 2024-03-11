@@ -360,9 +360,9 @@ def instruction(l,line_no,label,line):
                     bintemp +=x[11:5]
                     bintemp +=register_encoding[l[1].split(",")[0]]
                     bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]
-                    bintemp +=i_type_instructions[l[0]]["funct3"]
+                    bintemp +=s_type_instructions[l[0]]["funct3"]
                     bintemp +=x[4:0]
-                    bintemp +=i_type_instructions[l[0]]["opcode"]
+                    bintemp +=s_type_instructions[l[0]]["opcode"]
                     bintemp=bintemp+'\n'
                 except:
                     f=open("output.txt","w")
@@ -396,15 +396,15 @@ def instruction(l,line_no,label,line):
                 try: 
                     x=''
                     registers=[reg.strip(",") for reg in l[1:]]
-                    x=Immediate(int(registers[0].split(",")[2]),12)
+                    x=Immediate(int(registers[0].split(",")[2]),13)
                     bintemp+=x[12]
                     bintemp+=x[10:5]
                     bintemp+=register_encoding[registers[0].split(",")[1]]
                     bintemp+=register_encoding[registers[0].split(",")[0]] 
-                    bintemp +=i_type_instructions[l[0]]["funct3"]
+                    bintemp +=b_type_instructions[l[0]]["funct3"]
                     bintemp+=x[4:1]
                     bintemp+=x[11]
-                    bintemp +=i_type_instructions[l[0]]["opcode"]
+                    bintemp +=b_type_instructions[l[0]]["opcode"]
                     bintemp=bintemp+'\n'
                 except:
                     f=open("output.txt","w")
