@@ -1,1 +1,1 @@
-Invalid register call for beq  at line 18
+Invalid register call for beq  at line 10

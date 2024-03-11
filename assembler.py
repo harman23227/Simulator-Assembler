@@ -393,8 +393,8 @@ def instruction(l,line_no,label,line):
         space_check=lin.split()
         if len(fun)== 3 and len(space_check) == 1:
             if int(fun[2])>=-4096 and int(fun[2])<=4095:
+                print(l)
                 try: 
-                    x=''
                     registers=[reg.strip(",") for reg in l[1:]]
                     x=Immediate(int(registers[0].split(",")[2]),13)
                     bintemp+=x[12]
@@ -463,9 +463,8 @@ def instruction(l,line_no,label,line):
         if len(fun)== 2 and len(space_check) == 1:
             if len(fun[1])>= -1048576 or len(fun[1])<=1048575:
                 try:
-                    x=''
                     registers=[operand.strip(",")for operand in l[1:]]
-                    x +=Immediate(int(registers[0].split(",")[2]),20)
+                    x =Immediate(int(registers[0].split(",")[2]),20)
                     bintemp +=x[20]
                     bintemp +=x[10:1]
                     bintemp +=x[11]
