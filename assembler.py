@@ -283,7 +283,11 @@ def instruction(l,line_no,label,line):
                 if int(tempnum)>=-2048 and int(tempnum)<=2047:
                     try:
                         bintemp +=Immediate(int(l[1].split(",")[1].split("(")[0]),12)[::-1]
+<<<<<<< HEAD
                         bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]   
+=======
+                        bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]   #inside bracket
+>>>>>>> 128d84823153283abe43e6f7cc18855f6ef2f43e
                         bintemp +=i_type_instructions[l[0]]["funct3"]
                         bintemp +=register_encoding[l[1].split(",")[0]]   
                         bintemp +=i_type_instructions[l[0]]["opcode"]
@@ -397,8 +401,13 @@ def instruction(l,line_no,label,line):
             try:
                 if int(fun[2])>=-4096 and int(fun[2])<=4095:
                     try: 
+<<<<<<< HEAD
                         registers=[reg.strip(",") for reg in l[1:]]          
                         x=Immediate(int(registers[0].split(",")[2]),13)[::-1]     
+=======
+                        registers=[reg.strip(",") for reg in l[1:]]          #0000000000000001100011
+                        x=Immediate(int(registers[0].split(",")[2]),13)[::-1]     #00000000000000000000000001100011
+>>>>>>> 128d84823153283abe43e6f7cc18855f6ef2f43e
                         bintemp+=x[12]
                         bintemp+=x[10:4:-1]
                         bintemp+=register_encoding[registers[0].split(",")[1]]
@@ -421,8 +430,13 @@ def instruction(l,line_no,label,line):
             except:     
                     try:
                         im = label[fun[2]]
+<<<<<<< HEAD
                         registers=[reg.strip(",") for reg in l[1:]]    
                         x=Immediate(im,13)[::-1]   
+=======
+                        registers=[reg.strip(",") for reg in l[1:]]          #0000000000000001100011
+                        x=Immediate(im,13)[::-1]     #00000000000000000000000001100011
+>>>>>>> 128d84823153283abe43e6f7cc18855f6ef2f43e
                         bintemp+=x[12]
                         bintemp+=x[10:4:-1]
                         bintemp+=register_encoding[registers[0].split(",")[1]]
@@ -490,8 +504,13 @@ def instruction(l,line_no,label,line):
                     x +=Immediate(int(registers[0].split(",")[1]),21)[::-1]
                     print(x)
                     print(x[0])
+<<<<<<< HEAD
                     bintemp +=x[20]                                   
                     bintemp +=x[10:0:-1]                                 
+=======
+                    bintemp +=x[20]                                        #11111101000111111111000011101111
+                    bintemp +=x[10:0:-1]                                   #01111111111100010111000011101111
+>>>>>>> 128d84823153283abe43e6f7cc18855f6ef2f43e
                     bintemp +=x[11]
                     bintemp +=x[19:11:-1]  
                     bintemp+=register_encoding[registers[0].split(",")[0]] 
