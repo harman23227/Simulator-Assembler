@@ -2,7 +2,7 @@ import sys
 
 
 
-def binary_string(number):                 #converting decimal to binary string
+def binary_string(number):              
     return bin(number)[2:]   
 
 
@@ -282,10 +282,10 @@ def instruction(l,line_no,label,line):
                         break
                 if int(tempnum)>=-2048 and int(tempnum)<=2047:
                     try:
-                        bintemp +=Immediate(int(l[1].split(",")[1].split("(")[0]),12)
-                        bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]   #inside bracket
+                        bintemp +=Immediate(int(l[1].split(",")[1].split("(")[0]),12)[::-1]
+                        bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]   
                         bintemp +=i_type_instructions[l[0]]["funct3"]
-                        bintemp +=register_encoding[l[1].split(",")[0]]   # 2nd reg
+                        bintemp +=register_encoding[l[1].split(",")[0]]   
                         bintemp +=i_type_instructions[l[0]]["opcode"]
                         bintemp=bintemp+'\n'
                     except:
@@ -316,7 +316,7 @@ def instruction(l,line_no,label,line):
                 if int(fun[2])>=-2048 and int(fun[2])<=2047:
                     try:
                         registers=[reg.strip(",") for reg in l[1:]]
-                        bintemp +=Immediate(int(registers[0].split(",")[2]),12)
+                        bintemp +=Immediate(int(registers[0].split(",")[2]),12)[::-1]
                         bintemp +=register_encoding[registers[0].split(",")[1]]
                         bintemp +=i_type_instructions[l[0]]["funct3"]
                         bintemp +=register_encoding[registers[0].split(",")[0]]
@@ -356,12 +356,13 @@ def instruction(l,line_no,label,line):
             if int(tempnum)>=-2048 and int(tempnum)<=2047:
                 try:
                     x=''
-                    x=Immediate(int(l[1].split(",")[1].split("(")[0]),12)
-                    bintemp +=x[11:5:-1]
+                    x=Immediate(int(l[1].split(",")[1].split("(")[0]),12)[::-1]
+                    bintemp +=x[11:4:-1]
                     bintemp +=register_encoding[l[1].split(",")[0]]
                     bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]
                     bintemp +=s_type_instructions[l[0]]["funct3"]
                     bintemp +=x[4:0:-1]
+                    bintemp +=x[0]
                     bintemp +=s_type_instructions[l[0]]["opcode"]
                     bintemp=bintemp+'\n'
                 except:
@@ -392,29 +393,51 @@ def instruction(l,line_no,label,line):
         fun = lin.split(',')
         space_check=lin.split()
         if len(fun)== 3 and len(space_check) == 1:
-            if int(fun[2])>=-4096 and int(fun[2])<=4095:
-                try: 
-                    registers=[reg.strip(",") for reg in l[1:]]          #0000000000000001100011
-                    x=Immediate(int(registers[0].split(",")[2]),13)     #00000000000000000000000001100011
-                    bintemp+=x[12]
-                    bintemp+=x[10:4:-1]
-                    bintemp+=register_encoding[registers[0].split(",")[1]]
-                    bintemp+=register_encoding[registers[0].split(",")[0]] 
-                    bintemp +=b_type_instructions[l[0]]["funct3"]
-                    bintemp+=x[4:0:-1]
-                    bintemp+=x[11]
-                    bintemp +=b_type_instructions[l[0]]["opcode"]
-                    bintemp=bintemp+'\n'
-                except:
+            print(fun)
+            try:
+                if int(fun[2])>=-4096 and int(fun[2])<=4095:
+                    try: 
+                        registers=[reg.strip(",") for reg in l[1:]]          
+                        x=Immediate(int(registers[0].split(",")[2]),13)[::-1]     
+                        bintemp+=x[12]
+                        bintemp+=x[10:4:-1]
+                        bintemp+=register_encoding[registers[0].split(",")[1]]
+                        bintemp+=register_encoding[registers[0].split(",")[0]] 
+                        bintemp +=b_type_instructions[l[0]]["funct3"]
+                        bintemp+=x[4:0:-1]
+                        bintemp+=x[11]
+                        bintemp +=b_type_instructions[l[0]]["opcode"]
+                        bintemp=bintemp+'\n'
+                    except:
+                        f=open("output.txt","w")
+                        f.write(f"Invalid register call for {temp} at line {line_no}")
+                        f.close()
+                        sys.exit()
+                else:
                     f=open("output.txt","w")
-                    f.write(f"Invalid register call for {temp} at line {line_no}")
+                    f.write(f"Illegal immediate value for {temp} at line {line_no}")
                     f.close()
                     sys.exit()
-            else:
-                f=open("output.txt","w")
-                f.write(f"Illegal immediate value for {temp} at line {line_no}")
-                f.close()
-                sys.exit()
+            except:     
+                    try:
+                        im = label[fun[2]]
+                        registers=[reg.strip(",") for reg in l[1:]]    
+                        x=Immediate(im,13)[::-1]   
+                        bintemp+=x[12]
+                        bintemp+=x[10:4:-1]
+                        bintemp+=register_encoding[registers[0].split(",")[1]]
+                        bintemp+=register_encoding[registers[0].split(",")[0]] 
+                        bintemp +=b_type_instructions[l[0]]["funct3"]
+                        bintemp+=x[4:0:-1]
+                        bintemp+=x[11]
+                        bintemp +=b_type_instructions[l[0]]["opcode"]
+                        bintemp=bintemp+'\n'
+                    except:
+                        f=open("output.txt","w")
+                        f.write(f"Invalid label value or illegal register name for {temp} at line {line_no}")
+                        f.close()
+                        sys.exit()
+
         else:
             f=open("output.txt","w")
             f.write(f"Invalid syntax for {temp} at line {line_no}")
@@ -433,7 +456,7 @@ def instruction(l,line_no,label,line):
             if len(fun[1])>= -2147483648 or len(fun[1])<=2147483647:
                 try:
                     registers=[operand.strip(",")for operand in l[1:]]
-                    bintemp +=Immediate(int(registers[0].split(",")[2]),20)
+                    bintemp +=Immediate(int(registers[0].split(",")[1]),20)[::-1]
                     bintemp+=register_encoding[registers[0].split(",")[0]] 
                     bintemp +=u_type_instructions[l[0]]["opcode"]
                     bintemp=bintemp+'\n'
@@ -464,11 +487,13 @@ def instruction(l,line_no,label,line):
                 try:
                     x=''
                     registers=[operand.strip(",")for operand in l[1:]]
-                    x +=Immediate(int(registers[0].split(",")[2]),20)
-                    bintemp +=x[20]
-                    bintemp +=x[10:1:-1]
+                    x +=Immediate(int(registers[0].split(",")[1]),21)[::-1]
+                    print(x)
+                    print(x[0])
+                    bintemp +=x[20]                                   
+                    bintemp +=x[10:0:-1]                                 
                     bintemp +=x[11]
-                    bintemp +=x[19:12:-1]  
+                    bintemp +=x[19:11:-1]  
                     bintemp+=register_encoding[registers[0].split(",")[0]] 
                     bintemp +=j_type_instructions[l[0]]["opcode"]
                     bintemp=bintemp+'\n'
@@ -501,9 +526,9 @@ def instruction(l,line_no,label,line):
 
     
  
-label=dict() #to store appropriate pointers to respective labels
-v_halt="beq zero,zero,0" #to check for virtual halt
-count_halt=0 #To check the count for virtual halt
+label=dict() 
+v_halt="beq zero,zero,0" 
+count_halt=0 
 
 line_no=0
 pointer=0
@@ -525,13 +550,13 @@ for line in ip:
             d = get_get(line)
             if d in label:
                 g=open("output.txt","w")
-                g.write(f"Error in Line {line_no} ,Duplicate Label" )#mere lode pe
+                g.write(f"Error in Line {line_no} ,Duplicate Label" )
                 g.close()
                 sys.exit()
                 break
             elif d == None:
                 g=open("output.txt","w")
-                g.write(f"Error in Line {line_no} ,Invalid Syntax" )#mere lode pe
+                g.write(f"Error in Line {line_no} ,Invalid Syntax" )
                 g.close()
                 sys.exit()
                 break
