@@ -245,6 +245,11 @@ def instruction(l,line_no,label,line):
         temp = l[0]+" "
         op_lenght = len(temp)
         lin=line[op_lenght:]
+        if(lin[0]==" "):
+            f=open("output.txt","w")
+            f.write(f"Invalid syntax for {temp} at line {line_no}")
+            f.close()
+            sys.exit()
         fun = lin.split(',')
         space_check=lin.split()
         if len(fun)== 3 and len(space_check) == 1:
@@ -269,6 +274,14 @@ def instruction(l,line_no,label,line):
             sys.exit()
     
     elif l[0] in i_type_instructions.keys():
+        temp = l[0]+" "
+        op_lenght = len(temp)
+        lin1=line[op_lenght:]
+        if(lin1[0]==" "):
+            f=open("output.txt","w")
+            f.write(f"Invalid syntax for {temp} at line {line_no}")
+            f.close()
+            sys.exit()
         if l[0]=="lw":
             lin=line[3:]
             fun = lin.split(',')
@@ -343,6 +356,14 @@ def instruction(l,line_no,label,line):
 
         
     elif l[0] in s_type_instructions.keys():
+        temp = l[0]+" "
+        op_lenght = len(temp)
+        lin1=line[op_lenght:]
+        if(lin1[0]==" "):
+            f=open("output.txt","w")
+            f.write(f"Invalid syntax for {temp} at line {line_no}")
+            f.close()
+            sys.exit()
         lin = line[3:]
         fun = lin.split(',')
         space_check=lin.split()
@@ -390,6 +411,11 @@ def instruction(l,line_no,label,line):
         temp = l[0]+" "
         op_lenght = len(temp)
         lin=line[op_lenght:]
+        if(lin[0]==" "):
+            f=open("output.txt","w")
+            f.write(f"Invalid syntax for {temp} at line {line_no}")
+            f.close()
+            sys.exit()
         fun = lin.split(',')
         space_check=lin.split()
         if len(fun)== 3 and len(space_check) == 1:
@@ -449,6 +475,12 @@ def instruction(l,line_no,label,line):
         temp = l[0]+" "
         op_lenght = len(temp)
         lin=line[op_lenght:]
+        if(lin[0]==" "):
+            f=open("output.txt","w")
+            f.write(f"Invalid syntax for {temp} at line {line_no}")
+            f.close()
+            sys.exit()
+        
         fun = lin.split(',')
         space_check=lin.split()
         if len(fun)== 2 and len(space_check) == 1:
@@ -479,6 +511,14 @@ def instruction(l,line_no,label,line):
             sys.exit()
 
     elif l[0] in j_type_instructions.keys():
+        temp = l[0]+" "
+        op_lenght = len(temp)
+        lin1=line[op_lenght:]
+        if(lin1[0]==" "):
+            f=open("output.txt","w")
+            f.write(f"Invalid syntax for {temp} at line {line_no}")
+            f.close()
+            sys.exit()
         lin=line[4:]
         fun = lin.split(',')
         space_check=lin.split()
