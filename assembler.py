@@ -393,12 +393,11 @@ def instruction(l,line_no,label,line):
         fun = lin.split(',')
         space_check=lin.split()
         if len(fun)== 3 and len(space_check) == 1:
-            print(fun)
             try:
                 if int(fun[2])>=-4096 and int(fun[2])<=4095:
                     try: 
-                        registers=[reg.strip(",") for reg in l[1:]]          #0000000000000001100011
-                        x=Immediate(int(registers[0].split(",")[2]),13)[::-1]     #00000000000000000000000001100011
+                        registers=[reg.strip(",") for reg in l[1:]]         
+                        x=Immediate(int(registers[0].split(",")[2]),13)[::-1]     
                         bintemp+=x[12]
                         bintemp+=x[10:4:-1]
                         bintemp+=register_encoding[registers[0].split(",")[1]]
@@ -489,8 +488,6 @@ def instruction(l,line_no,label,line):
                     x=''
                     registers=[operand.strip(",")for operand in l[1:]]
                     x +=Immediate(int(registers[0].split(",")[1]),21)[::-1]
-                    print(x)
-                    print(x[0])
                     bintemp +=x[20]                                        #11111101000111111111000011101111
                     bintemp +=x[10:0:-1]                                   #01111111111100010111000011101111
                     bintemp +=x[11]
