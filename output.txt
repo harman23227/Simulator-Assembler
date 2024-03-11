@@ -1,1 +1,1 @@
-Invalid Syntax call for sltiu  at line 4
+Invalid register name for sltiu  at line 4
