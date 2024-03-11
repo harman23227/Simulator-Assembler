@@ -464,7 +464,7 @@ def instruction(l,line_no,label,line):
             if len(fun[1])>= -1048576 or len(fun[1])<=1048575:
                 try:
                     registers=[operand.strip(",")for operand in l[1:]]
-                    x =Immediate(int(registers[0].split(",")[2]),20)
+                    x +=Immediate(int(registers[0].split(",")[1]),21)
                     bintemp +=x[20]
                     bintemp +=x[10:1:-1]
                     bintemp +=x[11]
