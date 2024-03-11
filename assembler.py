@@ -433,7 +433,7 @@ def instruction(l,line_no,label,line):
             if len(fun[1])>= -2147483648 or len(fun[1])<=2147483647:
                 try:
                     registers=[operand.strip(",")for operand in l[1:]]
-                    bintemp +=Immediate(int(registers[0].split(",")[2]),20)
+                    bintemp +=Immediate(int(registers[0].split(",")[1]),20)
                     bintemp+=register_encoding[registers[0].split(",")[0]] 
                     bintemp +=u_type_instructions[l[0]]["opcode"]
                     bintemp=bintemp+'\n'
@@ -464,7 +464,7 @@ def instruction(l,line_no,label,line):
                 try:
                     x=''
                     registers=[operand.strip(",")for operand in l[1:]]
-                    x +=Immediate(int(registers[0].split(",")[2]),20)
+                    x +=Immediate(int(registers[0].split(",")[1]),21)
                     bintemp +=x[20]
                     bintemp +=x[10:1:-1]
                     bintemp +=x[11]
