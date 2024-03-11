@@ -24,7 +24,7 @@ def Immediate(n,b):
     elif len(binary) > b:
         binary = binary[-b:]
         
-    print (binary)
+    return binary
 
 
 
@@ -394,7 +394,6 @@ def instruction(l,line_no,label,line):
         if len(fun)== 3 and len(space_check) == 1:
             if int(fun[2])>=-4096 and int(fun[2])<=4095:
                 try: 
-                    x=''
                     registers=[reg.strip(",") for reg in l[1:]]
                     x=Immediate(int(registers[0].split(",")[2]),13)
                     bintemp+=x[12]
