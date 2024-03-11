@@ -504,7 +504,7 @@ def instruction(l,line_no,label,line):
  
 label=dict() #to store appropriate pointers to respective labels
 v_halt="beq zero,zero,0" #to check for virtual halt
-count_halt=1 #To check the count for virtual halt
+count_halt=0 #To check the count for virtual halt
 
 line_no=0
 pointer=0
