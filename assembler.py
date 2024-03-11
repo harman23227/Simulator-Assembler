@@ -24,7 +24,7 @@ def Immediate(n,b):
     elif len(binary) > b:
         binary = binary[-b:]
         
-    print (binary)
+    return binary
 
 
 
