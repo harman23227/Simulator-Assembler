@@ -282,7 +282,7 @@ def instruction(l,line_no,label,line):
                         break
                 if int(tempnum)>=-2048 and int(tempnum)<=2047:
                     try:
-                        bintemp +=Immediate(int(l[1].split(",")[1].split("(")[0]),12)
+                        bintemp +=Immediate(int(l[1].split(",")[1].split("(")[0]),12)[::-1]
                         bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]   #inside bracket
                         bintemp +=i_type_instructions[l[0]]["funct3"]
                         bintemp +=register_encoding[l[1].split(",")[0]]   # 2nd reg
@@ -316,7 +316,7 @@ def instruction(l,line_no,label,line):
                 if int(fun[2])>=-2048 and int(fun[2])<=2047:
                     try:
                         registers=[reg.strip(",") for reg in l[1:]]
-                        bintemp +=Immediate(int(registers[0].split(",")[2]),12)
+                        bintemp +=Immediate(int(registers[0].split(",")[2]),12)[::-1]
                         bintemp +=register_encoding[registers[0].split(",")[1]]
                         bintemp +=i_type_instructions[l[0]]["funct3"]
                         bintemp +=register_encoding[registers[0].split(",")[0]]
@@ -356,7 +356,7 @@ def instruction(l,line_no,label,line):
             if int(tempnum)>=-2048 and int(tempnum)<=2047:
                 try:
                     x=''
-                    x=Immediate(int(l[1].split(",")[1].split("(")[0]),12)
+                    x=Immediate(int(l[1].split(",")[1].split("(")[0]),12)[::-1]
                     bintemp +=x[11:4:-1]
                     bintemp +=register_encoding[l[1].split(",")[0]]
                     bintemp +=register_encoding[l[1].split(",")[1].split("(")[1].strip(")")]
@@ -396,7 +396,7 @@ def instruction(l,line_no,label,line):
             if int(fun[2])>=-4096 and int(fun[2])<=4095:
                 try: 
                     registers=[reg.strip(",") for reg in l[1:]]          #0000000000000001100011
-                    x=Immediate(int(registers[0].split(",")[2]),13)     #00000000000000000000000001100011
+                    x=Immediate(int(registers[0].split(",")[2]),13)[::-1]     #00000000000000000000000001100011
                     bintemp+=x[12]
                     bintemp+=x[10:4:-1]
                     bintemp+=register_encoding[registers[0].split(",")[1]]
@@ -434,7 +434,7 @@ def instruction(l,line_no,label,line):
             if len(fun[1])>= -2147483648 or len(fun[1])<=2147483647:
                 try:
                     registers=[operand.strip(",")for operand in l[1:]]
-                    bintemp +=Immediate(int(registers[0].split(",")[1]),20)
+                    bintemp +=Immediate(int(registers[0].split(",")[1]),20)[::-1]
                     bintemp+=register_encoding[registers[0].split(",")[0]] 
                     bintemp +=u_type_instructions[l[0]]["opcode"]
                     bintemp=bintemp+'\n'
@@ -465,9 +465,11 @@ def instruction(l,line_no,label,line):
                 try:
                     x=''
                     registers=[operand.strip(",")for operand in l[1:]]
-                    x +=Immediate(int(registers[0].split(",")[1]),21)
-                    bintemp +=x[20]
-                    bintemp +=x[10:0:-1]
+                    x +=Immediate(int(registers[0].split(",")[1]),21)[::-1]
+                    print(x)
+                    print(x[0])
+                    bintemp +=x[20]                                        #11111101000111111111000011101111
+                    bintemp +=x[10:0:-1]                                   #01111111111100010111000011101111
                     bintemp +=x[11]
                     bintemp +=x[19:11:-1]  
                     bintemp+=register_encoding[registers[0].split(",")[0]] 
