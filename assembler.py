@@ -596,11 +596,11 @@ for line in ip:
                 continue
             else:
                 gray = len(d) + 1
-                line = line[gray:]
-                if len(line) == 0:
+                lin = line[gray:]
+                if len(lin) == 0:
                     continue
                 else:
-                    line = line.strip()
-                    l=line.split()
+                    lin = lin.strip()
+                    l=lin.split()
                     instruction(l,line_no,label,line)
                     continue
