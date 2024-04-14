@@ -165,16 +165,28 @@ def Btype(line,output,pc):
     if func == "000" :
         if rs1==rs2:
             pc += sext(imm)
-
+            cl = sext(imm)
     if func == "001" :
+        if rs1!= rs2:
+            pc += sext(imm)
+            cl = sext(imm)
 
     if func == "100" :
-    
+        if rs2>rs1:
+            pc += sext(imm)
+            cl = sext(imm)
     if func == "101" :
-
+        if rs1>=rs2:
+            pc += sext(imm)
+            cl = sext(imm)
     if func == "110" :
-
+        if unsigined(rs1)<unsigined(rs2):
+            pc += sext(imm)
+            cl = sext(imm)
     if func == "111" :
+        if unsigined(rs1)>=unsigined(rs2):
+            pc += sext(imm)
+            cl = sext(imm)
 
 
 global pc
@@ -216,10 +228,10 @@ pc = 4
 cl = 4
 op=[]
 while True :
-    if final[pc]=="00000000000000000000000001100011" :
+    if final[cl]=="00000000000000000000000001100011" :
         break
-    x=final[pc]
-    instructions(x,op,pc)
+    x=final[cl]
+    instructions(x,op,pc,cl)
 f1 = open("output_2.txt","a")
 f1.writelines(op)
 
