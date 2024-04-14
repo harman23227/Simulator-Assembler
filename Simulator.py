@@ -146,7 +146,6 @@ reg_vals={
 
 
 
-
 # R type 
 def Rtype(line):
     line1=line[::-1]
@@ -161,3 +160,5 @@ def Rtype(line):
             sreg2=line1[20:25]
             dreg=line[7:12]   
             reg_vals[dreg]=reg_vals[sreg1]+reg_vals[sreg2]
+    elif line1[12:15]=="001":
+        
