@@ -2,8 +2,38 @@
 
 
 
+def Ibinaryrep(decimal,totalbits):
+    if decimal== 0:
+        return '0'.zfill(totalbits)
+    if decimal<0:
+        decimal = abs(decimal)
+        sign= '1'
+    else:
+        sign= '0'
+    binary=''
+    while decimal > 0:
+        binary = str(decimal % 2) + binary
+        decimal //= 2
+    binary = sign + binary.zfill(totalbits - 1)
+    return (binary)
 
+def Immediate(n,b):
+   
+    if n >=0:
+        binary = bin(n)[2:]
+    else:
+        binary = bin(n & int("1" * (n.bit_length() + 1), 2))[2:]
 
+   
+    if len(binary) < b:
+        if n >= 0:
+            binary = '0' * (b - len(binary)) + binary
+        else:                                                                       
+            binary = '1' * (b - len(binary)) + binary
+    elif len(binary) > b:
+        binary = binary[-b:]
+        
+    return binary
 
 
 register_encoding = {
