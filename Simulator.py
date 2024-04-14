@@ -1,5 +1,5 @@
-#simulator
-
+f1=open("output_2.txt","w")
+f1.close()
 
 
 
@@ -142,12 +142,7 @@ reg_vals={
     "11110":00000000000000000000000000000000,
     "11111":00000000000000000000000000000000,
 }
-
-
-
-
-# R type 
-def Rtype(line):
+def Rtype(line,output,pc):
     line1=line[::-1]
     if line1[12:15]=="000":
         if line1[25:32]=="0000000":                    #add
@@ -160,5 +155,51 @@ def Rtype(line):
             sreg2=line1[20:25]
             dreg=line[7:12]   
             reg_vals[dreg]=reg_vals[sreg1]+reg_vals[sreg2]
-    elif line1[12:15]=="001":
-        
+
+
+
+global pc
+
+def instructions(line,output,pc):
+
+    op = line[-7:]
+    if line == "0110011":
+        Rtype(line,output,pc)
+    elif line == "0000011" or line == "1100111" or line == "0010011":
+        Itype(line,output,pc)
+    elif line == "0100011":
+        Stype(line,output,pc)
+    elif line == "1100011":
+        Btype(line,output,pc)
+    elif line == "0110111" or line == "0010111":
+        Utype(line,output,pc)
+    elif line == "1101111":
+        Jtype(line,output,pc)
+
+
+
+
+
+
+
+
+
+
+
+ip=[]
+with open("input_2.txt", 'r') as file:
+    ip = [line.strip() for line in file]
+final = dict()
+for i in range(len(ip)):
+    final[(i+1)*4] = ip[i]
+pc = 4 
+op=[]
+while True :
+    if final[pc]=="00000000000000000000000001100011" :
+        break
+    x=final[pc]
+    instructions(x,op,pc)
+f1 = open("output_2.txt","a")
+f1.writelines(op)
+
+
