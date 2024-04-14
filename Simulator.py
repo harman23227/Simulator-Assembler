@@ -142,6 +142,21 @@ reg_vals={
     "11110":00000000000000000000000000000000,
     "11111":00000000000000000000000000000000,
 }
+
+def add_binary(a, b):
+    # Convert binary strings to integers
+    int_a = int(a, 2)
+    int_b = int(b, 2)
+    
+    # Add the integers
+    result = int_a + int_b
+    
+    # Convert the result back to binary and return
+    return bin(result)[2:]
+
+# Example usage:
+
+print("Binary sum:", binary_sum)
 def Rtype(line,output,pc):
     line1=line[::-1]
     if line1[12:15]=="000":
