@@ -156,25 +156,45 @@ def Rtype(line,output,pc):
             dreg=line[7:12]   
             reg_vals[dreg]=reg_vals[sreg1]+reg_vals[sreg2]
 
+def Btype(line,output,pc):
+    imm =""
+    imm += "0" + line[-9:-13:-1] + line[-26:-32:-1] + line[-8] + line[-32]
+    func = line[-13:-16:-1]
+    rs1 = sext(line[-16:-21:-1])
+    rs2 = sext(line[-21:-26:-1])
+    if func == "000" :
+        if rs1==rs2:
+            pc += sext(imm)
+
+    if func == "001" :
+
+    if func == "100" :
+    
+    if func == "101" :
+
+    if func == "110" :
+
+    if func == "111" :
 
 
 global pc
+global cl
 
-def instructions(line,output,pc):
+def instructions(line,output,pc,cl):
 
     op = line[-7:]
     if line == "0110011":
-        Rtype(line,output,pc)
+        Rtype(line,output,pc,cl)
     elif line == "0000011" or line == "1100111" or line == "0010011":
-        Itype(line,output,pc)
+        Itype(line,output,pc,cl)
     elif line == "0100011":
-        Stype(line,output,pc)
+        Stype(line,output,pc,cl)
     elif line == "1100011":
-        Btype(line,output,pc)
+        Btype(line,output,pc,cl)
     elif line == "0110111" or line == "0010111":
-        Utype(line,output,pc)
+        Utype(line,output,pc,cl)
     elif line == "1101111":
-        Jtype(line,output,pc)
+        Jtype(line,output,pc),cl
 
 
 
@@ -193,6 +213,7 @@ final = dict()
 for i in range(len(ip)):
     final[(i+1)*4] = ip[i]
 pc = 4 
+cl = 4
 op=[]
 while True :
     if final[pc]=="00000000000000000000000001100011" :
