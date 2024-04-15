@@ -302,7 +302,11 @@ def Btype(line,op,pc):   #btype
             pc = binary_to_int(sext(imm,32))
 
         
-
+def Jtype(line,output,pc,cl):
+    rd = line[-7:-12]
+    imm = "0" + line[-32:-22:-1] +line[-21] + line[-21:-13:-1] + line[-32]
+    reg_vals[rd] = pc +4
+    pc = imm 
 
 
 
