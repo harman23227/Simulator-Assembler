@@ -1,5 +1,11 @@
 fn = open("output_2.txt","w")
 fn.close()
+def bin_with_bits(num, num_bits):
+    n="0b"+Immediate(num,num_bits)
+    return n
+def hex_with_bits(num):
+     n="0x000"+hex(num)[2:]
+     return n
 def binary_to_int(binary_string):
     """
     Convert a binary string to an integer.
@@ -51,11 +57,13 @@ def sext(bits, num_bits):
 
     # If the most significant bit is 1, extend with ones
     return '1' * (num_bits - len(bits)) + bits
-mem  = dict()
-temp = 65536
+nums = list()
+nomber = 65536
 for x in range(32):
-     mem[temp] = 0
-     temp + 4
+     nums.append(nomber)
+     nomber = nomber + 4
+mem =dict.fromkeys(nums,0)
+
      
      
 register_encoding = {
@@ -362,8 +370,13 @@ while True :
         break
     x=final[pc[0]]
     pc[0] = instructions(x,op,pc)
-    optemp=str([Immediate(pc[0],32),Immediate(reg_vals["00000"],32),Immediate(reg_vals["00001"],32),Immediate(reg_vals["00010"],32),Immediate(reg_vals["00011"],32),Immediate(reg_vals["00100"],32),Immediate(reg_vals["00101"],32),Immediate(reg_vals["00110"],32),Immediate(reg_vals["00111"],32),Immediate(reg_vals["01000"],32),Immediate(reg_vals["01001"],32),Immediate(reg_vals["01010"],32),Immediate(reg_vals["01011"],32),Immediate(reg_vals["01100"],32),Immediate(reg_vals["01101"],32),Immediate(reg_vals["01110"],32),Immediate(reg_vals["01111"],32),Immediate(reg_vals["10000"],32),Immediate(reg_vals["10001"],32),Immediate(reg_vals["10010"],32),Immediate(reg_vals["10011"],32),Immediate(reg_vals["10100"],32),Immediate(reg_vals["10101"],32),Immediate(reg_vals["10110"],32),Immediate(reg_vals["10111"],32),Immediate(reg_vals["11000"],32),Immediate(reg_vals["11001"],32),Immediate(reg_vals["11010"],32),Immediate(reg_vals["11011"],32),Immediate(reg_vals["11100"],32),Immediate(reg_vals["11101"],32),Immediate(reg_vals["11110"],32),Immediate(reg_vals["11111"],32)])
+    optemp=bin_with_bits(pc[0],32)+" "+bin_with_bits(reg_vals["00000"],32)+" "+bin_with_bits(reg_vals["00001"],32)+" "+bin_with_bits(reg_vals["00010"],32)+" "+bin_with_bits(reg_vals["00011"],32)+" "+bin_with_bits(reg_vals["00100"],32)+" "+bin_with_bits(reg_vals["00101"],32)+" "+bin_with_bits(reg_vals["00110"],32)+" "+bin_with_bits(reg_vals["00111"],32)+" "+bin_with_bits(reg_vals["01000"],32)+" "+bin_with_bits(reg_vals["01001"],32)+" "+bin_with_bits(reg_vals["01010"],32)+" "+bin_with_bits(reg_vals["01011"],32)+" "+bin_with_bits(reg_vals["01100"],32)+" "+bin_with_bits(reg_vals["01101"],32)+" "+bin_with_bits(reg_vals["01110"],32)+" "+bin_with_bits(reg_vals["01111"],32)+" "+bin_with_bits(reg_vals["10000"],32)+" "+bin_with_bits(reg_vals["10001"],32)+" "+bin_with_bits(reg_vals["10010"],32)+" "+bin_with_bits(reg_vals["10011"],32)+" "+bin_with_bits(reg_vals["10100"],32)+" "+bin_with_bits(reg_vals["10101"],32)+" "+bin_with_bits(reg_vals["10110"],32)+" "+bin_with_bits(reg_vals["10111"],32)+" "+bin_with_bits(reg_vals["11000"],32)+" "+bin_with_bits(reg_vals["11001"],32)+" "+bin_with_bits(reg_vals["11010"],32)+" "+bin_with_bits(reg_vals["11011"],32)+" "+bin_with_bits(reg_vals["11100"],32)+" "+bin_with_bits(reg_vals["11101"],32)+" "+bin_with_bits(reg_vals["11110"],32)+" "+bin_with_bits(reg_vals["11111"],32)+"\n"
     op.append(optemp)
 f1 = open("output_2.txt","a")
 f1.writelines(op)
+memory = list()
+for i in mem:
+     no = hex_with_bits(i)+":"+bin_with_bits(mem[i],32)+"\n"
+     memory.append(no)
+f1.writelines(no)
 f1.close()
