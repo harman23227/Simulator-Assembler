@@ -392,9 +392,11 @@ while True :
     op.append(optemp)
 f1 = open("output_2.txt","a")
 f1.writelines(op)
-memory = list()
-for i in mem:
+memory = []
+for i in range(65536,65664,4):
      no = hex_with_bits(i)+":"+bin_with_bits(mem[i],32)+"\n"
+     print
      memory.append(no)
-f1.writelines(no)
+print(mem)
+f1.writelines(memory)
 f1.close()
