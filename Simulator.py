@@ -319,7 +319,7 @@ def Jtype(line,output,pc):
     return ans
 
 
-
+     
 
 def instructions(line,output,pc):
     print("Enetring intruction ")
