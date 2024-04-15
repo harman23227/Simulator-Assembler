@@ -208,7 +208,7 @@ def srl(rs1,rs2):
 
 
 
-def Rtype(line,op,pc,cl):
+def Rtype(line,op,pc):
     if line[17:20]=="000":
         if line[25:32]=="0000000":                    #add
             sreg1=line[12:17]
@@ -305,7 +305,7 @@ def Btype(line,op,pc):   #btype
             pc = binary_to_int(sext(imm,32))
 
         
-def Jtype(line,output,pc,cl):
+def Jtype(line,output,pc):
     imm = 
 
 
