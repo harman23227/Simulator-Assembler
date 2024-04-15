@@ -309,7 +309,8 @@ def Jtype(line,output,pc):
     imm = 
 
 
-
+def utype(line,output,pc):
+     
 
 def instructions(line,output,pc):
 
