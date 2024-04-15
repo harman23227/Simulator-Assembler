@@ -50,7 +50,14 @@ def sext(bits, num_bits):
 
     # If the most significant bit is 1, extend with ones
     return '1' * (num_bits - len(bits)) + bits
-
+mem  = dict()
+temp = 65536
+for x in range(32):
+     mem[temp] = 0
+     temp + 4
+     
+     
+for x in range()
 register_encoding = {
     "x0": "00000",
     "zero": "00000",
