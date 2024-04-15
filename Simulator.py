@@ -355,5 +355,3 @@ while True :
 f1 = open("output_2.txt","a")
 f1.writelines(op)
 f1.close()
-
-
