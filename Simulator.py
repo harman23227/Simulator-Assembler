@@ -273,30 +273,31 @@ def Btype(line,op,pc):
     rs1 = reversed(line[-16:-21:-1])
     rs2 = reversed(line[-21:-26:-1])
     if func == "000" :
-        if rs1==rs2:
-            pc += sext(imm)
-            cl = sext(imm)
+        if Immediate(reg_vals[rs1],32)==Immediate(reg_vals[rs2],32):
+            pc += binary_to_int(sext(imm,32))
+            cl = binary_to_int(sext(imm,32))
     if func == "001" :
-        if rs1!= rs2:
-            pc += sext(imm)
-            cl = sext(imm)
+        if Immediate(reg_vals[rs1],32)!=Immediate(reg_vals[rs2],32):
+            pc += binary_to_int(sext(imm,32))
+            cl = binary_to_int(sext(imm,32))
 
     if func == "100" :
-        if rs2>rs1:
-            pc += sext(imm)
-            cl = sext(imm)
+        if Immediate(reg_vals[rs1],32)<Immediate(reg_vals[rs2],32):
+            pc += binary_to_int(sext(imm,32))
+            cl = binary_to_int(sext(imm,32))
     if func == "101" :
-        if rs1>=rs2:
-            pc += sext(imm)
-            cl = sext(imm)
+        if Immediate(reg_vals[rs1],32)>=Immediate(reg_vals[rs2],32):
+            pc += binary_to_int(sext(imm,32))
+            cl = binary_to_int(sext(imm,32))
     if func == "110" :
-        if unsigined(rs1)<unsigined(rs2):
-            pc += sext(imm)
-            cl = sext(imm)
+        if reg_vals[rs1]<reg_vals[rs2]:
+            pc += binary_to_int(sext(imm,32))
+            cl = binary_to_int(sext(imm,32))
     if func == "111" :
-        if unsigined(rs1)>=unsigined(rs2):
-            pc += sext(imm)
-            cl = sext(imm)
+        if reg_vals[rs1]>=reg_vals[rs2]:
+            pc += binary_to_int(sext(imm,32))
+            cl = binary_to_int(sext(imm,32))
+        
 def Jtype(line,output,pc,cl):
     imm = 
 
