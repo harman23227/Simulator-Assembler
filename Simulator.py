@@ -1,6 +1,3 @@
-f1=open("output_2.txt","w")
-f1.close()
-global pc
 
 
 def binary_to_int(binary_string):
@@ -305,8 +302,7 @@ def Btype(line,op,pc):   #btype
             pc = binary_to_int(sext(imm,32))
 
         
-def Jtype(line,output,pc):
-    imm = 
+
 
 
 
@@ -316,16 +312,16 @@ def instructions(line,output,pc):
     op = line[-7:]
     if op == "0110011":
         Rtype(line,output,pc)
-    elif op == "0000011" or op == "1100111" or op == "0010011":
-        Itype(line,output,pc)
-    elif op == "0100011":
-        Stype(line,output,pc)
+    # elif op == "0000011" or op == "1100111" or op == "0010011":
+    #     Itype(line,output,pc)
+    # elif op == "0100011":
+    #     Stype(line,output,pc)
     elif op == "1100011":
         Btype(line,output,pc)
-    elif op == "0110111" or op== "0010111":
-        Utype(line,output,pc)
-    elif op == "1101111":
-        Jtype(line,output,pc)
+    # elif op == "0110111" or op== "0010111":
+    #     Utype(line,output,pc)
+    # elif op == "1101111":
+    #     Jtype(line,output,pc)
 
 
 
@@ -350,7 +346,7 @@ while True :
         break
     x=final[pc]
     instructions(x,op,pc)
-    optemp=[Immediate(pc,32),Immediate(reg_vals["00000"]),Immediate(reg_vals["00001"]),Immediate(reg_vals["00010"]),Immediate(reg_vals["00011"]),Immediate(reg_vals["00100"]),Immediate(reg_vals["00101"]),Immediate(reg_vals["00110"]),Immediate(reg_vals["00111"]),Immediate(reg_vals["01000"]),Immediate(reg_vals["01001"]),Immediate(reg_vals["01010"]),Immediate(reg_vals["01011"]),Immediate(reg_vals["01100"]),Immediate(reg_vals["01101"]),Immediate(reg_vals["01110"]),Immediate(reg_vals["01111"]),Immediate(reg_vals["10000"]),Immediate(reg_vals["10001"]),Immediate(reg_vals["10010"]),Immediate(reg_vals["10011"]),Immediate(reg_vals["10100"]),Immediate(reg_vals["10101"]),Immediate(reg_vals["10110"]),Immediate(reg_vals["10111"]),Immediate(reg_vals["11000"]),Immediate(reg_vals["11001"]),Immediate(reg_vals["11010"]),Immediate(reg_vals["11011"]),Immediate(reg_vals["11100"]),Immediate(reg_vals["11101"]),Immediate(reg_vals["11110"]),Immediate(reg_vals["11111"])]
+    optemp=str([Immediate(pc,32),Immediate(reg_vals["00000"],32),Immediate(reg_vals["00001"],32),Immediate(reg_vals["00010"],32),Immediate(reg_vals["00011"],32),Immediate(reg_vals["00100"],32),Immediate(reg_vals["00101"],32),Immediate(reg_vals["00110"],32),Immediate(reg_vals["00111"],32),Immediate(reg_vals["01000"],32),Immediate(reg_vals["01001"],32),Immediate(reg_vals["01010"],32),Immediate(reg_vals["01011"],32),Immediate(reg_vals["01100"],32),Immediate(reg_vals["01101"],32),Immediate(reg_vals["01110"],32),Immediate(reg_vals["01111"],32),Immediate(reg_vals["10000"],32),Immediate(reg_vals["10001"],32),Immediate(reg_vals["10010"],32),Immediate(reg_vals["10011"],32),Immediate(reg_vals["10100"],32),Immediate(reg_vals["10101"],32),Immediate(reg_vals["10110"],32),Immediate(reg_vals["10111"],32),Immediate(reg_vals["11000"],32),Immediate(reg_vals["11001"],32),Immediate(reg_vals["11010"],32),Immediate(reg_vals["11011"],32),Immediate(reg_vals["11100"],32),Immediate(reg_vals["11101"],32),Immediate(reg_vals["11110"],32),Immediate(reg_vals["11111"],32)])
     op.append(optemp)
 f1 = open("output_2.txt","a")
 f1.writelines(op)
