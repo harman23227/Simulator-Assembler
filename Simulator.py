@@ -267,9 +267,11 @@ def Rtype(line,op,pc,cl):
 def Btype(line,op,pc):
     imm =""
     imm += "0" + line[-9:-13:-1] + line[-26:-32:-1] + line[-8] + line[-32]
+    imm = imm[-1::-1]
     func = line[-13:-16:-1]
-    rs1 = sext(line[-16:-21:-1])
-    rs2 = sext(line[-21:-26:-1])
+    func = reversed(func)
+    rs1 = reversed(line[-16:-21:-1])
+    rs2 = reversed(line[-21:-26:-1])
     if func == "000" :
         if rs1==rs2:
             pc += sext(imm)
@@ -295,7 +297,8 @@ def Btype(line,op,pc):
         if unsigined(rs1)>=unsigined(rs2):
             pc += sext(imm)
             cl = sext(imm)
-
+def Jtype(line,output,pc,cl):
+    imm = 
 
 global pc
 global cl
