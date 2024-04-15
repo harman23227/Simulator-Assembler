@@ -280,7 +280,7 @@ def Rtype(line,op,pc):
 def Btype(line,op,pc):   #btype
     print("Enetring b  type ")
     imm =""
-    imm += "0" + line[-9:-13:-1] + line[-26:-32:-1] + line[-8] + line[-32]
+    imm += "0" + line[-9:-13:-1] + line[-26:-32:-1] + line[-8] + line[-32] 
     imm = imm[-1::-1]
     func = line[-13:-16:-1]
     func = reversed(func)
@@ -288,24 +288,30 @@ def Btype(line,op,pc):   #btype
     rs2 = reversed(line[-21:-26:-1])
     if func == "000" :
         if Immediate(reg_vals[rs1],32)==Immediate(reg_vals[rs2],32):
+            imm=imm+"0"
             ans = binary_to_int(sext(imm,32))
     if func == "001" :
         if Immediate(reg_vals[rs1],32)!=Immediate(reg_vals[rs2],32):
+            imm=imm+"0"
             ans = binary_to_int(sext(imm,32))
     if func == "100" :
         if Immediate(reg_vals[rs1],32)<Immediate(reg_vals[rs2],32):
+            imm=imm+"10"
             ans = binary_to_int(sext(imm,32))
 
     if func == "101" :
         if Immediate(reg_vals[rs1],32)>=Immediate(reg_vals[rs2],32):
+            imm=imm+"0"
             ans = binary_to_int(sext(imm,32))
 
     if func == "110" :
         if reg_vals[rs1]<reg_vals[rs2]:
+            imm=imm+"0"
             ans = binary_to_int(sext(imm,32))
 
     if func == "111" :
         if reg_vals[rs1]>=reg_vals[rs2]:
+            imm=imm+"0"
             ans = binary_to_int(sext(imm,32))
     return ans
 
@@ -318,6 +324,16 @@ def Jtype(line,output,pc):
     ans = binary_to_int(sext(imm, 32)) 
     return ans
 
+def Utype(line,output,pc):
+     imm=line[0:20]+"000000000000"
+     rsd=line[20:25]
+     print("entering U type")
+     if(line[25:32]=="0110111"):
+          reg_vals[rsd]=
+          
+          
+          
+     
 
      
 
@@ -330,11 +346,11 @@ def instructions(line,output,pc):
     #     Itype(line,output,pc)
     # elif op == "0100011":
     #     Stype(line,output,pc)
-    if op == "1100011":
+    elif op == "1100011":
         ans = Btype(line,output,pc)
-    # elif op == "0110111" or op== "0010111":
-    #     Utype(line,output,pc)
-    if op == "1101111":
+    elif op == "0110111" or op== "0010111":
+              Utype(line,output,pc)
+    elif op == "1101111":
         ans = Jtype(line,output,pc)
     return ans
 
