@@ -333,12 +333,14 @@ def Jtype(line,output,pc):
     return ans
 
 def Utype(line,output,pc):
-     imm=line[0:20]+"000000000000"
-     rsd=line[20:25]
-     print("entering U type")
-     if(line[25:32]=="0110111"):
-          reg_vals[rsd]=
-          
+    imm=line[0:20]+"000000000000"
+    rsd=line[20:25]
+    print("entering U type")
+    if(line[25:32]=="0110111"):
+          reg_vals[rsd]=sext(imm,32)
+    elif(line[25:32]=="0010111"):
+          reg_vals[25:32]=pc[0]+sext(imm,32)
+    return pc[0]+4
           
           
      
