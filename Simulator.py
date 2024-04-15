@@ -1,4 +1,5 @@
-
+fn = open("output_2.txt","w")
+fn.close()
 def binary_to_int(binary_string):
     """
     Convert a binary string to an integer.
@@ -57,7 +58,6 @@ for x in range(32):
      temp + 4
      
      
-for x in range()
 register_encoding = {
     "x0": "00000",
     "zero": "00000",
@@ -219,28 +219,28 @@ def Rtype(line,op,pc):
             sreg2=line[7:12]
             dreg=line[20:25]
             reg_vals[dreg]=reg_vals[sreg1]+reg_vals[sreg2]
-            pc[0]+=4
+            ans=pc[0]+4
 
         elif line[25:32]=="0100000":                
             sreg1=line[15:20]
             sreg2=line[20:25]
             dreg=line[7:12]   
             reg_vals[dreg]=reg_vals[sreg1]-reg_vals[sreg2]
-            pc[0]+=4
+            ans=pc[0]+4
 
     elif line[17:20]=="001":
             sreg1=line[15:20]
             sreg2=line[20:25]
             dreg=line[7:12]
             reg_vals[dreg]=sll(reg_vals[sreg1],reg_vals[sreg2])
-            pc[0]+=4
+            ans=pc[0]+4
     elif line[17:20]=="010":
             sreg1=line[15:20]
             sreg2=line[20:25]
             dreg=line[7:12]
             if(Immediate(reg_vals[sreg1],32)<Immediate(reg_vals[sreg2],32)):
                 reg_vals[dreg]=1
-            pc[0]+=4
+            ans=pc[0]+4
 
     elif line[17:20]=="011":
             sreg1=line[15:20]
@@ -248,35 +248,34 @@ def Rtype(line,op,pc):
             dreg=line[7:12]
             if(reg_vals[sreg1]<reg_vals[sreg2]):
                 reg_vals[dreg]=1
-            pc[0]+=4
+            ans=pc[0]+4
     elif line[17:20]=="100":
             sreg1=line[15:20]
             sreg2=line[20:25]
             dreg=line[7:12]
             reg_vals[dreg]=reg_vals[sreg1]^reg_vals[sreg2]
-            pc[0]+=4
+            ans=pc[0]+4
 
     elif line[17:20]=="101":
             sreg1=line[15:20]
             sreg2=line[20:25]
             dreg=line[7:12]
             reg_vals[dreg]=srl(reg_vals[sreg1],reg_vals[sreg2])
-            pc[0]+= 4
+            ans=pc[0]+4
     elif line[17:20]=="110":
             sreg1=line[15:20]
             sreg2=line[20:25]
             dreg=line[7:12]
             reg_vals[dreg]=reg_vals[sreg1]|reg_vals[sreg2]
-            pc[0] += 4
+            ans=pc[0]+4
     elif line[17:20]=="111":
             sreg1=line[15:20]
             sreg2=line[20:25]
             dreg=line[7:12]
             reg_vals[dreg]=reg_vals[sreg1]&reg_vals[sreg2]
-            pc[0] += 4
-    
-
-
+            ans=pc[0]+4
+    ans = pc[0]+4
+    return ans
 
 def Btype(line,op,pc):   #btype
     print("Enetring b  type ")
@@ -289,25 +288,26 @@ def Btype(line,op,pc):   #btype
     rs2 = reversed(line[-21:-26:-1])
     if func == "000" :
         if Immediate(reg_vals[rs1],32)==Immediate(reg_vals[rs2],32):
-            pc[0] = binary_to_int(sext(imm,32))
+            ans = binary_to_int(sext(imm,32))
     if func == "001" :
         if Immediate(reg_vals[rs1],32)!=Immediate(reg_vals[rs2],32):
-            pc[0] = binary_to_int(sext(imm,32))
+            ans = binary_to_int(sext(imm,32))
     if func == "100" :
         if Immediate(reg_vals[rs1],32)<Immediate(reg_vals[rs2],32):
-            pc[0] = binary_to_int(sext(imm,32))
+            ans = binary_to_int(sext(imm,32))
 
     if func == "101" :
         if Immediate(reg_vals[rs1],32)>=Immediate(reg_vals[rs2],32):
-            pc = binary_to_int(sext(imm,32))
+            ans = binary_to_int(sext(imm,32))
 
     if func == "110" :
         if reg_vals[rs1]<reg_vals[rs2]:
-            pc[0] = binary_to_int(sext(imm,32))
+            ans = binary_to_int(sext(imm,32))
 
     if func == "111" :
         if reg_vals[rs1]>=reg_vals[rs2]:
-            pc[0] = binary_to_int(sext(imm,32))
+            ans = binary_to_int(sext(imm,32))
+    return ans
 
         
 def Jtype(line,output,pc):
@@ -315,7 +315,8 @@ def Jtype(line,output,pc):
     rd = line[-7:-12]
     imm = "0" + line[-32:-22:-1] +line[-21] + line[-21:-13:-1] + line[-32]
     reg_vals[rd] = pc[0] +4
-    pc[0] = binary_to_int(sext(imm, 32)) 
+    ans = binary_to_int(sext(imm, 32)) 
+    return ans
 
 
 
@@ -324,17 +325,18 @@ def instructions(line,output,pc):
     print("Enetring intruction ")
     op = line[-7:]
     if op == "0110011":
-        Rtype(line,output,pc)
+        ans = Rtype(line,output,pc)
     # elif op == "0000011" or op == "1100111" or op == "0010011":
     #     Itype(line,output,pc)
     # elif op == "0100011":
     #     Stype(line,output,pc)
     if op == "1100011":
-        Btype(line,output,pc)
+        ans = Btype(line,output,pc)
     # elif op == "0110111" or op== "0010111":
     #     Utype(line,output,pc)
     if op == "1101111":
-        Jtype(line,output,pc)
+        ans = Jtype(line,output,pc)
+    return ans
 
 
 
@@ -359,7 +361,7 @@ while True :
     if final[pc[0]]=="00000000000000000000000001100011" :
         break
     x=final[pc[0]]
-    instructions(x,op,pc)
+    pc[0] = instructions(x,op,pc)
     optemp=str([Immediate(pc[0],32),Immediate(reg_vals["00000"],32),Immediate(reg_vals["00001"],32),Immediate(reg_vals["00010"],32),Immediate(reg_vals["00011"],32),Immediate(reg_vals["00100"],32),Immediate(reg_vals["00101"],32),Immediate(reg_vals["00110"],32),Immediate(reg_vals["00111"],32),Immediate(reg_vals["01000"],32),Immediate(reg_vals["01001"],32),Immediate(reg_vals["01010"],32),Immediate(reg_vals["01011"],32),Immediate(reg_vals["01100"],32),Immediate(reg_vals["01101"],32),Immediate(reg_vals["01110"],32),Immediate(reg_vals["01111"],32),Immediate(reg_vals["10000"],32),Immediate(reg_vals["10001"],32),Immediate(reg_vals["10010"],32),Immediate(reg_vals["10011"],32),Immediate(reg_vals["10100"],32),Immediate(reg_vals["10101"],32),Immediate(reg_vals["10110"],32),Immediate(reg_vals["10111"],32),Immediate(reg_vals["11000"],32),Immediate(reg_vals["11001"],32),Immediate(reg_vals["11010"],32),Immediate(reg_vals["11011"],32),Immediate(reg_vals["11100"],32),Immediate(reg_vals["11101"],32),Immediate(reg_vals["11110"],32),Immediate(reg_vals["11111"],32)])
     op.append(optemp)
 f1 = open("output_2.txt","a")
