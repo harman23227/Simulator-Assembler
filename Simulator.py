@@ -264,7 +264,7 @@ def Rtype(line,op,pc,cl):
 
 
 
-def Btype(line,op,pc):
+def Btype(line,op,pc):   #btype
     imm =""
     imm += "0" + line[-9:-13:-1] + line[-26:-32:-1] + line[-8] + line[-32]
     imm = imm[-1::-1]
