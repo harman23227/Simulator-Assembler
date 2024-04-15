@@ -396,5 +396,6 @@ for i in range(65536,65664,4):
      print
      memory.append(no)
 print(mem)
+print(memory)
 f1.writelines(memory)
 f1.close()
