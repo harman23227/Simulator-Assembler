@@ -231,68 +231,76 @@ def srl(rs1,rs2):
 def Rtype(line,op,pc):
     print("Enetring r type ")
     if line[17:20]=="000":
-        if line[25:32]=="0000000":                    #add
+        if line[0:7]=="0000000":  
+            print("wooow")                  #add
             sreg1=line[12:17]
             sreg2=line[7:12]
             dreg=line[20:25]
+            print(reg_vals[sreg1],"bbbbbbbbbbbbbbbb",reg_vals[sreg2])
             reg_vals[dreg]=reg_vals[sreg1]+reg_vals[sreg2]
-            ans=pc[0]+4
+            return pc[0]+4
 
-        elif line[25:32]=="0100000":                
-            sreg1=line[15:20]
-            sreg2=line[20:25]
-            dreg=line[7:12]   
+        elif line[0:7]=="0100000":     
+            print("noooo")           
+            sreg1=line[12:17]
+            sreg2=line[7:12]
+            dreg=line[20:25] 
             reg_vals[dreg]=reg_vals[sreg1]-reg_vals[sreg2]
-            ans=pc[0]+4
+            return pc[0]+4
 
     elif line[17:20]=="001":
-            sreg1=line[15:20]
-            sreg2=line[20:25]
-            dreg=line[7:12]
+            print("gaga")
+            sreg1=line[12:17]
+            sreg2=line[7:12]
+            dreg=line[20:25]
             reg_vals[dreg]=sll(reg_vals[sreg1],reg_vals[sreg2])
-            ans=pc[0]+4
+            return pc[0]+4
     elif line[17:20]=="010":
-            sreg1=line[15:20]
-            sreg2=line[20:25]
-            dreg=line[7:12]
+            print("johnny")
+            sreg1=line[12:17]
+            sreg2=line[7:12]
+            dreg=line[20:25]
             if(Immediate(reg_vals[sreg1],32)<Immediate(reg_vals[sreg2],32)):
                 reg_vals[dreg]=1
-            ans=pc[0]+4
+            return pc[0]+4
 
     elif line[17:20]=="011":
-            sreg1=line[15:20]
-            sreg2=line[20:25]
-            dreg=line[7:12]
+            print("lolo")
+            sreg1=line[12:17]
+            sreg2=line[7:12]
+            dreg=line[20:25]
             if(reg_vals[sreg1]<reg_vals[sreg2]):
                 reg_vals[dreg]=1
-            ans=pc[0]+4
+            return pc[0]+4
     elif line[17:20]=="100":
-            sreg1=line[15:20]
-            sreg2=line[20:25]
-            dreg=line[7:12]
+            print("nfjenjen")
+            sreg1=line[12:17]
+            sreg2=line[7:12]
+            dreg=line[20:25]
             reg_vals[dreg]=reg_vals[sreg1]^reg_vals[sreg2]
-            ans=pc[0]+4
+            return pc[0]+4
 
     elif line[17:20]=="101":
-            sreg1=line[15:20]
-            sreg2=line[20:25]
-            dreg=line[7:12]
+            print("wwowo")
+            sreg1=line[12:17]
+            sreg2=line[7:12]
+            dreg=line[20:25]
             reg_vals[dreg]=srl(reg_vals[sreg1],reg_vals[sreg2])
-            ans=pc[0]+4
+            return pc[0]+4
     elif line[17:20]=="110":
-            sreg1=line[15:20]
-            sreg2=line[20:25]
-            dreg=line[7:12]
+            print("wqwqw")
+            sreg1=line[12:17]
+            sreg2=line[7:12]
+            dreg=line[20:25]
             reg_vals[dreg]=reg_vals[sreg1]|reg_vals[sreg2]
-            ans=pc[0]+4
+            return pc[0]+4
     elif line[17:20]=="111":
-            sreg1=line[15:20]
-            sreg2=line[20:25]
-            dreg=line[7:12]
+            print("qtqtq")
+            sreg1=line[12:17]
+            sreg2=line[7:12]
+            dreg=line[20:25]
             reg_vals[dreg]=reg_vals[sreg1]&reg_vals[sreg2]
-            ans=pc[0]+4
-    ans = pc[0]+4
-    return ans
+            return pc[0]+4
 
 def Btype(line, op, pc):
     print("Entering b type ")
@@ -308,7 +316,7 @@ def Btype(line, op, pc):
             return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
     elif func == "100":
         if Immediate(reg_vals[rs1], 32) < Immediate(reg_vals[rs2], 32):
-            return pc[0] + twos_complement_to_decimal(sext(imm + "10", 32))
+            return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
     elif func == "101":
         if Immediate(reg_vals[rs1], 32) >= Immediate(reg_vals[rs2], 32):
             return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
