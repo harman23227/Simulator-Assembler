@@ -285,44 +285,32 @@ def Rtype(line,op,pc):
     ans = pc[0]+4
     return ans
 
-def Btype(line,op,pc):   #btype
-    print("Enetring b  type ")
-    imm =""
-    imm += "0" + line[-9:-13:-1] + line[-26:-32:-1] + line[-8] + line[-32] 
-    imm = imm[-1::-1]
-    func = line[-15:-12]
-    print(func)
-    rs1 = (line[-16:-21:-1])
-    rs2 = (line[-21:-26:-1])
-    ans = pc[0]
-    if func == "000" :
-        if Immediate(reg_vals[rs1],32)==Immediate(reg_vals[rs2],32):
-            imm=imm+"0"
-            ans = binary_to_int(sext(imm,32))
-    if func == "001" :
-        if Immediate(reg_vals[rs1],32)!=Immediate(reg_vals[rs2],32):
-            imm=imm+"0"
-            ans = binary_to_int(sext(imm,32))
-    if func == "100" :
-        if Immediate(reg_vals[rs1],32)<Immediate(reg_vals[rs2],32):
-            imm=imm+"10"
-            ans = binary_to_int(sext(imm,32))
+def Btype(line, op, pc):
+    print("Entering b type ")
+    imm = line[0] + line[24] + line[1:7] + line[20:24]
+    func = line[17:20]
+    rs1 = line[12:17]
+    rs2 = line[7:12]
+    if func == "000":
+        if Immediate(reg_vals[rs1], 32) == Immediate(reg_vals[rs2], 32):
+            return pc[0] + binary_to_int(sext(imm + "0", 32))
+    elif func == "001":
+        if Immediate(reg_vals[rs1], 32) != Immediate(reg_vals[rs2], 32):
+            return pc[0] + binary_to_int(sext(imm + "0", 32))
+    elif func == "100":
+        if Immediate(reg_vals[rs1], 32) < Immediate(reg_vals[rs2], 32):
+            return pc[0] + binary_to_int(sext(imm + "10", 32))
+    elif func == "101":
+        if Immediate(reg_vals[rs1], 32) >= Immediate(reg_vals[rs2], 32):
+            return pc[0] + binary_to_int(sext(imm + "0", 32))
+    elif func == "110":
+        if reg_vals[rs1] < reg_vals[rs2]:
+            return pc[0] + binary_to_int(sext(imm + "0", 32))
+    elif func == "111":
+        if reg_vals[rs1] >= reg_vals[rs2]:
+            return pc[0] + binary_to_int(sext(imm + "0", 32))
+    return pc[0] + 4
 
-    if func == "101" :
-        if Immediate(reg_vals[rs1],32)>=Immediate(reg_vals[rs2],32):
-            imm=imm+"0"
-            ans = binary_to_int(sext(imm,32))
-
-    if func == "110" :
-        if reg_vals[rs1]<reg_vals[rs2]:
-            imm=imm+"0"
-            ans = binary_to_int(sext(imm,32))
-
-    if func == "111" :
-        if reg_vals[rs1]>=reg_vals[rs2]:
-            imm=imm+"0"
-            ans = binary_to_int(sext(imm,32))
-    return ans
 
         
 def Jtype(line,output,pc):
