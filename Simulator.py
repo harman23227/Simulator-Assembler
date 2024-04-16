@@ -343,7 +343,15 @@ def Utype(line,output,pc):
     return pc[0]+4
           
           
-     
+def Stype(line,output,pc):
+     imm=line[0:7]+line[20:25]
+     immd=binary_to_int(imm)
+     rs1=line[12:17]
+     rs2=line[7:12]
+     val=reg_vals[rs1]+immd
+     mem[val]=reg_vals[rs2]
+     return pc[0]+4
+
 
      
 
