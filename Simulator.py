@@ -64,7 +64,16 @@ for x in range(32):
      nomber = nomber + 4
 mem =dict.fromkeys(nums,0)
 
-     
+def twos_complement_to_decimal(binary):
+    # Check if the binary number is negative (if its most significant bit is 1)
+    if binary[0] == '1':
+        # Perform two's complement conversion
+        inverted_binary = ''.join('1' if bit == '0' else '0' for bit in binary)
+        decimal_value = -(int(inverted_binary, 2) + 1)  # Add 1 to the inverted binary and negate the result
+    else:
+        # If the binary number is positive, simply convert it to its integer value
+        decimal_value = int(binary, 2)
+    return decimal_value
      
 register_encoding = {
     "x0": "00000",
@@ -293,22 +302,22 @@ def Btype(line, op, pc):
     rs2 = line[7:12]
     if func == "000":
         if Immediate(reg_vals[rs1], 32) == Immediate(reg_vals[rs2], 32):
-            return pc[0] + binary_to_int(sext(imm + "0", 32))
+            return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
     elif func == "001":
         if Immediate(reg_vals[rs1], 32) != Immediate(reg_vals[rs2], 32):
-            return pc[0] + binary_to_int(sext(imm + "0", 32))
+            return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
     elif func == "100":
         if Immediate(reg_vals[rs1], 32) < Immediate(reg_vals[rs2], 32):
-            return pc[0] + binary_to_int(sext(imm + "10", 32))
+            return pc[0] + twos_complement_to_decimal(sext(imm + "10", 32))
     elif func == "101":
         if Immediate(reg_vals[rs1], 32) >= Immediate(reg_vals[rs2], 32):
-            return pc[0] + binary_to_int(sext(imm + "0", 32))
+            return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
     elif func == "110":
         if reg_vals[rs1] < reg_vals[rs2]:
-            return pc[0] + binary_to_int(sext(imm + "0", 32))
+            return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
     elif func == "111":
         if reg_vals[rs1] >= reg_vals[rs2]:
-            return pc[0] + binary_to_int(sext(imm + "0", 32))
+            return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
     return pc[0] + 4
 
 
@@ -326,16 +335,18 @@ def Utype(line,output,pc):
     rsd=line[20:25]
     print("entering U type")
     if(line[25:32]=="0110111"):
-          reg_vals[rsd]=sext(imm,32)
+          reg_vals[rsd]=binary_to_int(imm)
     elif(line[25:32]=="0010111"):
-          reg_vals[25:32]=pc[0]+sext(imm,32)
+          reg_vals[rsd]=pc[0]+binary_to_int(imm)
     return pc[0]+4
+
+
 def Itype(line,output,pc):
     op_code = line[-7:]
     rd = line[-12:-7]
     func = line[-15:-12]
     rs = line[-20:-15]
-    imm = binary_to_int(line[-32:-20])
+    imm = twos_complement_to_decimal(line[-32:-20])
     ans = pc[0]
     if op_code == "0000011":
         reg_vals[rd]= mem[reg_vals[rs]+imm]
@@ -359,7 +370,7 @@ def Itype(line,output,pc):
           
 def Stype(line,output,pc):
      imm=line[0:7]+line[20:25]
-     immd=binary_to_int(imm)
+     immd=twos_complement_to_decimal((imm))
      rs1=line[12:17]
      rs2=line[7:12]
      val=reg_vals[rs1]+immd
