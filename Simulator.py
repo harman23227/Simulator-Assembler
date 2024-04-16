@@ -327,7 +327,7 @@ def Jtype(line,output,pc):
     rd = line[-7:-12]
     imm = "0" + line[-32:-22:-1] +line[-21] + line[-21:-13:-1] + line[-32]
     reg_vals[rd] = pc[0] +4
-    ans = binary_to_int(sext(imm, 32)) 
+    ans = twos_complement_to_decimal(sext(imm, 32)) 
     return ans
 
 def Utype(line,output,pc):
@@ -335,9 +335,9 @@ def Utype(line,output,pc):
     rsd=line[20:25]
     print("entering U type")
     if(line[25:32]=="0110111"):
-          reg_vals[rsd]=binary_to_int(imm)
+          reg_vals[rsd]=twos_complement_to_decimal(imm)
     elif(line[25:32]=="0010111"):
-          reg_vals[rsd]=pc[0]+binary_to_int(imm)
+          reg_vals[rsd]=pc[0]+twos_complement_to_decimal(imm)
     return pc[0]+4
 
 
@@ -416,12 +416,13 @@ for i in range(len(ip)):
 pc = [4]
 op=[]
 while True :
+    y=pc[0]
     print(pc[0]," ")
-    if final[pc[0]]=="00000000000000000000000001100011" :
+    if (final[pc[0]]=="00000000000000000000000001100011" or final[y]=="00000000000000000000000001100011") :
         break
     x=final[pc[0]]
     pc[0] = instructions(x,op,pc)
-    optemp=bin_with_bits(pc[0],32)+" "+bin_with_bits(reg_vals["00000"],32)+" "+bin_with_bits(reg_vals["00001"],32)+" "+bin_with_bits(reg_vals["00010"],32)+" "+bin_with_bits(reg_vals["00011"],32)+" "+bin_with_bits(reg_vals["00100"],32)+" "+bin_with_bits(reg_vals["00101"],32)+" "+bin_with_bits(reg_vals["00110"],32)+" "+bin_with_bits(reg_vals["00111"],32)+" "+bin_with_bits(reg_vals["01000"],32)+" "+bin_with_bits(reg_vals["01001"],32)+" "+bin_with_bits(reg_vals["01010"],32)+" "+bin_with_bits(reg_vals["01011"],32)+" "+bin_with_bits(reg_vals["01100"],32)+" "+bin_with_bits(reg_vals["01101"],32)+" "+bin_with_bits(reg_vals["01110"],32)+" "+bin_with_bits(reg_vals["01111"],32)+" "+bin_with_bits(reg_vals["10000"],32)+" "+bin_with_bits(reg_vals["10001"],32)+" "+bin_with_bits(reg_vals["10010"],32)+" "+bin_with_bits(reg_vals["10011"],32)+" "+bin_with_bits(reg_vals["10100"],32)+" "+bin_with_bits(reg_vals["10101"],32)+" "+bin_with_bits(reg_vals["10110"],32)+" "+bin_with_bits(reg_vals["10111"],32)+" "+bin_with_bits(reg_vals["11000"],32)+" "+bin_with_bits(reg_vals["11001"],32)+" "+bin_with_bits(reg_vals["11010"],32)+" "+bin_with_bits(reg_vals["11011"],32)+" "+bin_with_bits(reg_vals["11100"],32)+" "+bin_with_bits(reg_vals["11101"],32)+" "+bin_with_bits(reg_vals["11110"],32)+" "+bin_with_bits(reg_vals["11111"],32)+"\n"
+    optemp=bin_with_bits(y,32)+" "+bin_with_bits(reg_vals["00000"],32)+" "+bin_with_bits(reg_vals["00001"],32)+" "+bin_with_bits(reg_vals["00010"],32)+" "+bin_with_bits(reg_vals["00011"],32)+" "+bin_with_bits(reg_vals["00100"],32)+" "+bin_with_bits(reg_vals["00101"],32)+" "+bin_with_bits(reg_vals["00110"],32)+" "+bin_with_bits(reg_vals["00111"],32)+" "+bin_with_bits(reg_vals["01000"],32)+" "+bin_with_bits(reg_vals["01001"],32)+" "+bin_with_bits(reg_vals["01010"],32)+" "+bin_with_bits(reg_vals["01011"],32)+" "+bin_with_bits(reg_vals["01100"],32)+" "+bin_with_bits(reg_vals["01101"],32)+" "+bin_with_bits(reg_vals["01110"],32)+" "+bin_with_bits(reg_vals["01111"],32)+" "+bin_with_bits(reg_vals["10000"],32)+" "+bin_with_bits(reg_vals["10001"],32)+" "+bin_with_bits(reg_vals["10010"],32)+" "+bin_with_bits(reg_vals["10011"],32)+" "+bin_with_bits(reg_vals["10100"],32)+" "+bin_with_bits(reg_vals["10101"],32)+" "+bin_with_bits(reg_vals["10110"],32)+" "+bin_with_bits(reg_vals["10111"],32)+" "+bin_with_bits(reg_vals["11000"],32)+" "+bin_with_bits(reg_vals["11001"],32)+" "+bin_with_bits(reg_vals["11010"],32)+" "+bin_with_bits(reg_vals["11011"],32)+" "+bin_with_bits(reg_vals["11100"],32)+" "+bin_with_bits(reg_vals["11101"],32)+" "+bin_with_bits(reg_vals["11110"],32)+" "+bin_with_bits(reg_vals["11111"],32)+"\n"
     op.append(optemp)
 f1 = open("output_2.txt","a")
 f1.writelines(op)
