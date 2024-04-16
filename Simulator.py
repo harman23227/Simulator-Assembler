@@ -341,7 +341,32 @@ def Utype(line,output,pc):
     elif(line[25:32]=="0010111"):
           reg_vals[25:32]=pc[0]+sext(imm,32)
     return pc[0]+4
-          
+def Itype(line,output,pc):
+    op_code = line[-7:]
+    rd = line[-12:-7]
+    func = line[-15:-12]
+    rs = line[-20:-15]
+    imm = binary_to_int(line[-32:-20])
+    ans = pc[0]
+    if op_code == "0000011":
+        reg_vals[rd]= mem[reg_vals[rs]+imm]
+        ans = pc[0]+4
+    if op_code == "0010011" and func == "000":
+        reg_vals[rd]=reg_vals[rs]+imm
+        ans = pc[0]+4
+    if op_code == "0010011" and func == "011":
+        if abs(reg_vals[rs])<abs(imm):
+            reg_vals[rd]=1
+            ans=pc[0] + 4
+        else:
+            ans = pc[0]+4
+    if op_code == "1100111" :
+        reg_vals[rd] = pc[0] +4
+        ans=reg_vals[rs]+imm
+    return ans
+
+            
+               
           
 def Stype(line,output,pc):
      imm=line[0:7]+line[20:25]
@@ -360,10 +385,10 @@ def instructions(line,output,pc):
     op = line[-7:]
     if op == "0110011":
         ans = Rtype(line,output,pc)
-    # elif op == "0000011" or op == "1100111" or op == "0010011":
-    #     Itype(line,output,pc)
-    # elif op == "0100011":
-    #     Stype(line,output,pc)
+    elif op == "0000011" or op == "1100111" or op == "0010011":
+        Itype(line,output,pc)
+    elif op == "0100011":
+        Stype(line,output,pc)
     elif op == "1100011":
         ans = Btype(line,output,pc)
     elif op == "0110111" or op== "0010111":
