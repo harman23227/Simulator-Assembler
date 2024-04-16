@@ -21,7 +21,7 @@ def binary_to_int(binary_string):
 def Immediate(n,b):
     
    
-    if n >=0:
+    if n >= 0:
         binary = bin(n)[2:]
     else:
         binary = bin(n & int("1" * (n.bit_length() + 1), 2))[2:]
@@ -386,13 +386,13 @@ def instructions(line,output,pc):
     if op == "0110011":
         ans = Rtype(line,output,pc)
     elif op == "0000011" or op == "1100111" or op == "0010011":
-        Itype(line,output,pc)
+        ans = Itype(line,output,pc)
     elif op == "0100011":
-        Stype(line,output,pc)
+        ans = Stype(line,output,pc)
     elif op == "1100011":
         ans = Btype(line,output,pc)
     elif op == "0110111" or op== "0010111":
-              Utype(line,output,pc)
+        ans = Utype(line,output,pc)
     elif op == "1101111":
         ans = Jtype(line,output,pc)
     return ans
