@@ -290,10 +290,11 @@ def Btype(line,op,pc):   #btype
     imm =""
     imm += "0" + line[-9:-13:-1] + line[-26:-32:-1] + line[-8] + line[-32] 
     imm = imm[-1::-1]
-    func = line[-13:-16:-1]
-    func = reversed(func)
-    rs1 = reversed(line[-16:-21:-1])
-    rs2 = reversed(line[-21:-26:-1])
+    func = line[-15:-12]
+    print(func)
+    rs1 = (line[-16:-21:-1])
+    rs2 = (line[-21:-26:-1])
+    ans = pc[0]
     if func == "000" :
         if Immediate(reg_vals[rs1],32)==Immediate(reg_vals[rs2],32):
             imm=imm+"0"
