@@ -260,7 +260,12 @@ def Rtype(line,op,pc):
             sreg1=line[12:17]
             sreg2=line[7:12]
             dreg=line[20:25]
-            if(Immediate(reg_vals[sreg1],32)<Immediate(reg_vals[sreg2],32)):
+            print(sreg1)
+            print(sreg2)
+            print(dreg)
+            print(reg_vals[sreg1])
+            print(reg_vals[sreg2])
+            if(reg_vals[sreg1])<(reg_vals[sreg2]):
                 reg_vals[dreg]=1
             return pc[0]+4
 
@@ -331,21 +336,38 @@ def Btype(line, op, pc):
 
         
 def Jtype(line,output,pc):
-    print("Enetring j type ")
-    rd = line[-7:-12]
-    imm = "0" + line[-32:-22:-1] +line[-21] + line[-21:-13:-1] + line[-32]
-    reg_vals[rd] = pc[0] +4
-    ans = twos_complement_to_decimal(sext(imm, 32)) 
-    return ans
+    print("entering j type")
+    imm = line[0]+line[10:20]+line[9]+line[1:10]
+    rd=line[20:25]
+    print(pc[0])
+    reg_vals[rd]=pc[0]+4
+    imm1=imm+"0"
+    imm12=sext(imm1,32)
+    val=twos_complement_to_decimal(imm12)
+    print(val)
+    pc[0]=pc[0]+val
+    print("hello",pc)
+    return pc[0]
+    
+    
+
 
 def Utype(line,output,pc):
     imm=line[0:20]+"000000000000"
+    print(imm)
+    print(twos_complement_to_decimal(imm))
     rsd=line[20:25]
+    print(rsd)
+    print(reg_vals[rsd])
+    print(pc[0])
     print("entering U type")
     if(line[25:32]=="0110111"):
-          reg_vals[rsd]=twos_complement_to_decimal(imm)
+          reg_vals[rsd]=twos_complement_to_decimal((imm))
     elif(line[25:32]=="0010111"):
-          reg_vals[rsd]=pc[0]+twos_complement_to_decimal(imm)
+          reg_vals[rsd]=pc[0]+twos_complement_to_decimal((imm))
+          print(pc[0])
+          print(twos_complement_to_decimal((imm)))
+          print(reg_vals[rsd])
     return pc[0]+4
 
 
@@ -381,8 +403,14 @@ def Stype(line,output,pc):
      immd=twos_complement_to_decimal((imm))
      rs1=line[12:17]
      rs2=line[7:12]
+     print(rs1)
+     print(rs2)
+     print(immd)
+     print(pc[0])
      val=reg_vals[rs1]+immd
      mem[val]=reg_vals[rs2]
+     print(reg_vals[rs2])
+     print(final)
      return pc[0]+4
 
 
@@ -420,23 +448,23 @@ with open("input_2.txt", 'r') as file:
     ip = [line.strip() for line in file]
 final = dict()
 for i in range(len(ip)):
-    final[(i+1)*4] = ip[i]
-pc = [4]
+    final[(i)*4] = ip[i]
+pc = [0]
 op=[]
 while True :
-    y=pc[0]
-    print(pc[0]," ")
-    if (final[pc[0]]=="00000000000000000000000001100011" or final[y]=="00000000000000000000000001100011") :
+    print(pc , " ")
+    if (final[pc[0]]=="00000000000000000000000001100011") :
         break
     x=final[pc[0]]
     pc[0] = instructions(x,op,pc)
-    optemp=bin_with_bits(y,32)+" "+bin_with_bits(reg_vals["00000"],32)+" "+bin_with_bits(reg_vals["00001"],32)+" "+bin_with_bits(reg_vals["00010"],32)+" "+bin_with_bits(reg_vals["00011"],32)+" "+bin_with_bits(reg_vals["00100"],32)+" "+bin_with_bits(reg_vals["00101"],32)+" "+bin_with_bits(reg_vals["00110"],32)+" "+bin_with_bits(reg_vals["00111"],32)+" "+bin_with_bits(reg_vals["01000"],32)+" "+bin_with_bits(reg_vals["01001"],32)+" "+bin_with_bits(reg_vals["01010"],32)+" "+bin_with_bits(reg_vals["01011"],32)+" "+bin_with_bits(reg_vals["01100"],32)+" "+bin_with_bits(reg_vals["01101"],32)+" "+bin_with_bits(reg_vals["01110"],32)+" "+bin_with_bits(reg_vals["01111"],32)+" "+bin_with_bits(reg_vals["10000"],32)+" "+bin_with_bits(reg_vals["10001"],32)+" "+bin_with_bits(reg_vals["10010"],32)+" "+bin_with_bits(reg_vals["10011"],32)+" "+bin_with_bits(reg_vals["10100"],32)+" "+bin_with_bits(reg_vals["10101"],32)+" "+bin_with_bits(reg_vals["10110"],32)+" "+bin_with_bits(reg_vals["10111"],32)+" "+bin_with_bits(reg_vals["11000"],32)+" "+bin_with_bits(reg_vals["11001"],32)+" "+bin_with_bits(reg_vals["11010"],32)+" "+bin_with_bits(reg_vals["11011"],32)+" "+bin_with_bits(reg_vals["11100"],32)+" "+bin_with_bits(reg_vals["11101"],32)+" "+bin_with_bits(reg_vals["11110"],32)+" "+bin_with_bits(reg_vals["11111"],32)+"\n"
+    optemp=bin_with_bits(pc[0],32)+" "+bin_with_bits(reg_vals["00000"],32)+" "+bin_with_bits(reg_vals["00001"],32)+" "+bin_with_bits(reg_vals["00010"],32)+" "+bin_with_bits(reg_vals["00011"],32)+" "+bin_with_bits(reg_vals["00100"],32)+" "+bin_with_bits(reg_vals["00101"],32)+" "+bin_with_bits(reg_vals["00110"],32)+" "+bin_with_bits(reg_vals["00111"],32)+" "+bin_with_bits(reg_vals["01000"],32)+" "+bin_with_bits(reg_vals["01001"],32)+" "+bin_with_bits(reg_vals["01010"],32)+" "+bin_with_bits(reg_vals["01011"],32)+" "+bin_with_bits(reg_vals["01100"],32)+" "+bin_with_bits(reg_vals["01101"],32)+" "+bin_with_bits(reg_vals["01110"],32)+" "+bin_with_bits(reg_vals["01111"],32)+" "+bin_with_bits(reg_vals["10000"],32)+" "+bin_with_bits(reg_vals["10001"],32)+" "+bin_with_bits(reg_vals["10010"],32)+" "+bin_with_bits(reg_vals["10011"],32)+" "+bin_with_bits(reg_vals["10100"],32)+" "+bin_with_bits(reg_vals["10101"],32)+" "+bin_with_bits(reg_vals["10110"],32)+" "+bin_with_bits(reg_vals["10111"],32)+" "+bin_with_bits(reg_vals["11000"],32)+" "+bin_with_bits(reg_vals["11001"],32)+" "+bin_with_bits(reg_vals["11010"],32)+" "+bin_with_bits(reg_vals["11011"],32)+" "+bin_with_bits(reg_vals["11100"],32)+" "+bin_with_bits(reg_vals["11101"],32)+" "+bin_with_bits(reg_vals["11110"],32)+" "+bin_with_bits(reg_vals["11111"],32)+" "+"\n"
     op.append(optemp)
 f1 = open("output_2.txt","a")
 f1.writelines(op)
+f1.write(optemp)
 memory = []
 for i in range(65536,65664,4):
-     no = hex_with_bits(i)+":"+bin_with_bits(mem[i],32)+"\n"
+     no = hex_with_bits(i)+":"+bin_with_bits(mem[i],32)+" "+"\n"
      print
      memory.append(no)
 print(mem)
