@@ -309,40 +309,45 @@ def Rtype(line,op,pc):
 
 def Btype(line, op, pc):
     print("Entering b type ")
-    imm = line[0] + line[24] + line[1:7] + line[20:24]
+    imm = line[0] + line[24] + line[1:7] + line[20:24]+"0"
     func = line[17:20]
     rs1 = line[12:17]
     rs2 = line[7:12]
+    print(reg_vals[rs1])
+    print(reg_vals[rs2])
+    print(func)
+    print(twos_complement_to_decimal(imm))
     if func == "000":
-        if Immediate(reg_vals[rs1], 32) == Immediate(reg_vals[rs2], 32):
-            return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
+        if (reg_vals[rs1] == reg_vals[rs2]):
+            return pc[0] + twos_complement_to_decimal(imm)
     elif func == "001":
-        if Immediate(reg_vals[rs1], 32) != Immediate(reg_vals[rs2], 32):
-            return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
+        if reg_vals[rs1] != reg_vals[rs2]:
+            return pc[0] + twos_complement_to_decimal(imm)
     elif func == "100":
-        if Immediate(reg_vals[rs1], 32) < Immediate(reg_vals[rs2], 32):
-            return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
+        if reg_vals[rs1] < reg_vals[rs2]:
+            return pc[0] + twos_complement_to_decimal(imm)
     elif func == "101":
-        if Immediate(reg_vals[rs1], 32) >= Immediate(reg_vals[rs2], 32):
-            return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
+        if reg_vals[rs1] >= reg_vals[rs2]:
+            return pc[0] + twos_complement_to_decimal(imm)
     elif func == "110":
         if reg_vals[rs1] < reg_vals[rs2]:
-            return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
+            return pc[0] + twos_complement_to_decimal(imm)
     elif func == "111":
         if reg_vals[rs1] >= reg_vals[rs2]:
-            return pc[0] + twos_complement_to_decimal(sext(imm + "0", 32))
+            return pc[0] + twos_complement_to_decimal(imm)
     return pc[0] + 4
 
 
         
 def Jtype(line,output,pc):
     print("entering j type")
-    imm = line[0]+line[10:20]+line[9]+line[1:10]
+    imm = line[0]+line[-20:-12]+line[-21]+line[-31:-21]
     rd=line[20:25]
     print(pc[0])
     reg_vals[rd]=pc[0]+4
     imm1=imm+"0"
     imm12=sext(imm1,32)
+    print(imm12)
     val=twos_complement_to_decimal(imm12)
     print(val)
     pc[0]=pc[0]+val
@@ -372,11 +377,14 @@ def Utype(line,output,pc):
 
 
 def Itype(line,output,pc):
+    print("going to I")
     op_code = line[-7:]
     rd = line[-12:-7]
     func = line[-15:-12]
     rs = line[-20:-15]
     imm = twos_complement_to_decimal(line[-32:-20])
+    print(imm)
+    print(reg_vals[rd])
     ans = pc[0]
     if op_code == "0000011":
         reg_vals[rd]= mem[reg_vals[rs]+imm]
@@ -431,6 +439,7 @@ def instructions(line,output,pc):
         ans = Utype(line,output,pc)
     elif op == "1101111":
         ans = Jtype(line,output,pc)
+    reg_vals["00000"]=0
     return ans
 
 
@@ -464,7 +473,7 @@ f1.writelines(op)
 f1.write(optemp)
 memory = []
 for i in range(65536,65664,4):
-     no = hex_with_bits(i)+":"+bin_with_bits(mem[i],32)+" "+"\n"
+     no = hex_with_bits(i)+":"+bin_with_bits(mem[i],32)+"\n"
      print
      memory.append(no)
 print(mem)
