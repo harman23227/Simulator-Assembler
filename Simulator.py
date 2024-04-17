@@ -7,26 +7,15 @@ def hex_with_bits(num):
      n="0x000"+hex(num)[2:]
      return n
 def binary_to_int(binary_string):
-    """
-    Convert a binary string to an integer.
-
-    Args:
-    - binary_string: A string representing a binary number.
-
-    Returns:
-    - Integer value of the binary number.
-    """
+   
     return int(binary_string, 2)
 
 def Immediate(n,b):
-    
-   
     if n >= 0:
         binary = bin(n)[2:]
     else:
         binary = bin(n & int("1" * (n.bit_length() + 1), 2))[2:]
 
-   
     if len(binary) < b:
         if n >= 0:
             binary = '0' * (b - len(binary)) + binary
@@ -38,25 +27,12 @@ def Immediate(n,b):
     return binary
 
 def sext(bits, num_bits):
-    """
-    Perform sign extension on a string of bits to match a specified number of bits.
-
-    Args:
-    - bits: A string representing the original bit sequence.
-    - num_bits: The number of bits to which the sequence should be extended.
-
-    Returns:
-    - Extended bit sequence as a string.
-    """
     if len(bits) >= num_bits:
         return bits
-
-    # If the most significant bit is 0, extend with zeros
     if bits[0] == '0':
         return '0' * (num_bits - len(bits)) + bits
-
-    # If the most significant bit is 1, extend with ones
     return '1' * (num_bits - len(bits)) + bits
+
 nums = list()
 nomber = 65536
 for x in range(32):
@@ -65,13 +41,10 @@ for x in range(32):
 mem =dict.fromkeys(nums,0)
 
 def twos_complement_to_decimal(binary):
-    # Check if the binary number is negative (if its most significant bit is 1)
     if binary[0] == '1':
-        # Perform two's complement conversion
         inverted_binary = ''.join('1' if bit == '0' else '0' for bit in binary)
-        decimal_value = -(int(inverted_binary, 2) + 1)  # Add 1 to the inverted binary and negate the result
+        decimal_value = -(int(inverted_binary, 2) + 1)  
     else:
-        # If the binary number is positive, simply convert it to its integer value
         decimal_value = int(binary, 2)
     return decimal_value
      
